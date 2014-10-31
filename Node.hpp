@@ -31,35 +31,25 @@ public:
 	void set_id(){ cout<<"need to automatically set an id to this node"<<endl; }
 	void addLabel(string labelName);
 	void addProperty(string propertyName, string propertyValue);
-	void sendEdge(string edgeName);
-	void receiveEdge(string edgeName);
+	void addEdge (Edge *the_edge){ allEdges.push_back(the_edge); }
 
-	void addOutgoingEdge(Edge the_edge) { 
-	
-		sentEdges.push_back(the_edge); allEdges.push_back(the_edge); 
-		// //if ( sentEdges_map.find("f") == sentEdges_map.end() ) {
-		// vector <string> edge_types = the_edge.getTypes();
-		// for (var i = 0; i < edge_types.size(); i++){
-		// 	sentEdges_map[i].push_back(the_edge); //regardless of whether type i already exists in the map;
-		// }
-	}
+	// void addOutgoingEdge(Edge *the_edge);
+	// void addReceivingEdge(Edge *the_edge);
 
-	void addReceivingEdge(Edge the_edge) { 
-	
-		receivedEdges.push_back(the_edge); allEdges.push_back(the_edge); 
-		// //if ( receivedEdges_map.find("f") == receivedEdges_map.end() ) {
-		// vector <string> edge_types = the_edge.getTypes();
-		// for (var i = 0; i < edge_types.size(); i++){
-		// 	receivedEdges_map[i].push_back(the_edge); //regardless of whether type i already exists in the map;
-		// }
-	}
+	// vector <*Edge> getOutgoingEdges();
+	// vector <*Edge> getIncomingEdges();
+	vector <Edge*> getAllEdges();
 
-	vector <Edge> getOutgoingEdges();
-	vector <Edge> getIncomingEdges();
-	vector <Edge> getAllEdges();
+	// map <string, vector <*Edge> > getOutgoingMap(){ return sentEdges_map; }
+	// map <string, vector <*Edge> > getIncomingMap(){ return receivedEdges_map; }
 
-	map <string, string> getProperties();
+	map <string, vector <string> > getProperties();
 	vector <string> getLabels();
+	vector <string> getProperty(string PropertyName){ 
+		map <string, vector <string> > all_properties = getProperties();
+		vector <string> property = all_properties[PropertyName];
+		return property;
+	}
 
 	void printNode();
 
@@ -67,14 +57,14 @@ public:
 private:
 	string id;
 	vector <string> labels;
-	map <string, string> properties;
+	map <string, vector <string> > properties;
 	
-	map <string, vector <Edge> > receivedEdges_map;
-	map <string, vector <Edge> > sentEdges_map;
+	// map <string, vector <string> > receivedEdges_map;
+	// map <string, Edge> sentEdges_map;
 
-	vector <Edge> sentEdges;
-	vector <Edge> receivedEdges;
-	vector <Edge> allEdges;
+	// vector <*Edge> sentEdges;
+	// vector <*Edge> receivedEdges;
+	vector <Edge*> allEdges;
 
 };
 

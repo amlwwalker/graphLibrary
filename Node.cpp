@@ -9,60 +9,54 @@ void Node::addLabel(string labelName){
 
 //function to add properties to nodes
 void Node::addProperty(string propertyName, string propertyValue){
-	properties[propertyName] = propertyValue;
+	properties[propertyName].push_back( propertyValue );
 }
-
-// void Node::addEdge(Edge the_edge){
-// 	cout<<"test"<<endl;
-// }
-
-// void Node::addEdge(Edge the_edge){
-
-// 	if (name == the_edge.end1){
-// 		sentEdges.push_back(the_edge);
-// 	}else{
-// 		receivedEdges.push_back(the_edge);
-// 	}
-
-// 	allEdges.push_back(the_edge);
-
-// }
 
 // //whenever an edge is created between two nodes, those nodes need to know about it
 
-// //if the node is a starting point, then it sends an edge
-// void Node::sendEdge(string edgeName){
-// 	//sentEdges.push_back(edgeName);
+// vector <*Edge> Node::getOutgoingEdges(){
+// 	return sentEdges;
 // }
 
-// //if the node receives an edge from another node, then it receives an edge.
-// void Node::receiveEdge(string edgeName){
-// 	//receivedEdges.push_back(edgeName);
+// vector <*Edge> Node::getIncomingEdges(){
+// 	return receivedEdges;
 // }
 
-vector <Edge> Node::getOutgoingEdges(){
-	return sentEdges;
-}
-
-vector <Edge> Node::getIncomingEdges(){
-	return receivedEdges;
-}
-
-vector <Edge> Node::getAllEdges(){
+vector <Edge*> Node::getAllEdges(){
 	return allEdges;
 }
 
+// void Node::addOutgoingEdge(Edge *the_edge) { 
 
-// vector <Edge> Node::getAllEdges(){
-
-// 	vector <Edge> AB;
-// 	// AB.reserve( receivedEdges.size() + sentEdges.size() ); // preallocate memory
-// 	// AB.insert( AB.end(), receivedEdges.begin(), receivedEdges.end() );
-// 	// AB.insert( AB.end(), sentEdges.begin(), sentEdges.end() );
-// 	return AB;
+// 	cout<<"added outgoing edge"<<endl;
+	
+// 	sentEdges.push_back(the_edge);
+// 	allEdges.push_back(the_edge); 
+// 	//if ( sentEdges_map.find("f") == sentEdges_map.end() ) {
+// 	vector <string> edge_types = the_edge->getTypes();
+// 	string to_node = the_edge->getEnd2();
+// 	for (int i = 0; i < edge_types.size(); i++){
+// 		string current_type = edge_types[i];
+// 		sentEdges_map[current_type].push_back(to_node); //regardless of whether type i already exists in the map;
+// 	}
 // }
 
-map <string, string> Node::getProperties(){
+// void Node::addReceivingEdge(Edge *the_edge) { 
+
+// 	cout<<"added incoming edge"<<endl;
+
+// 	receivedEdges.push_back(the_edge); allEdges.push_back(the_edge); 
+// 	//if ( receivedEdges_map.find("f") == receivedEdges_map.end() ) {
+// 	vector <string> edge_types = the_edge->getTypes();
+// 	string from_node = the_edge->getEnd2();
+// 	vector <string> edge_types = the_edge.getTypes();
+// 	for (int i = 0; i < edge_types.size(); i++){
+// 		string current_type = edge_types[i];
+// 		receivedEdges_map[current_type].push_back(from_node); //regardless of whether type i already exists in the map;
+// 	}
+// }
+
+map <string, vector <string> > Node::getProperties(){
 	return properties;
 }
 vector <string> Node::getLabels(){
@@ -71,7 +65,9 @@ vector <string> Node::getLabels(){
 
 void Node::printNode(){
 
-	cout<<"Details for Node :"<<id<<endl;
+	cout<<"------------------------------------------------------------------------------------------"<<endl;
+	string the_name = getProperty("name")[0];
+	cout<<"Details for Node :"<<getProperty("name")[0]<<endl;
 
 	cout<<"\tLabels: "<<endl; //COUT(getLabels());
 		vector <string> labs = getLabels();
@@ -79,12 +75,34 @@ void Node::printNode(){
 		for (int i=0; i<labs.size(); i++){ 
 			cout<<labs[i]; if (i<labs.size()-1){ cout<<", ";  }
 		}cout<<endl;
+
 	cout<<"\tProperties: "<<endl; //mapCOUT(getProperties());
-		map <string, string> Props = getProperties();
-		cout<<"\t\t";
-		for (map<string,string>::iterator it=Props.begin(); it!=Props.end(); ++it)
-	    std::cout << it->first << " => " << it->second << '\n';
-	// cout<<"Incoming Edges: "<<endl; COUT(N.getIncomingEdges());
-	// cout<<"Outgoing Edges: "<<endl; COUT(N.getOutgoingEdges());
+		map <string, vector<string> > Props = getProperties();
+		// cout<<"\t\t";
+
+		int ccount = -1;
+		for ( const auto &myPair : Props ) {
+        	std::cout <<"\t\t"<<myPair.first<<": ";
+        	ccount += 1;
+        	for (int i=0; i<myPair.second.size(); i++){
+        		cout<<myPair.second[i]<<" ";
+        	}
+        	cout<<endl;
+        } cout<<endl;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    cout<<" Edges: "<<endl;
+    for (int i=0; i<allEdges.size(); i++){
+    	Edge *curr_edge = allEdges[i];
+    	string curr_type = curr_edge -> getTypes()[0];
+    	Node node1 = *(curr_edge -> getEnd1());
+    	Node node2 = *(curr_edge -> getEnd2());
+    	cout<<"\t\t"<<node1.getProperty("name")[0]<< " "<<curr_type<<" "<<node2.getProperty("name")[0]<<endl;    
+    } cout<<endl;
+
+
+
+     cout<<"------------------------------------------------------------------------------------------"<<endl;
 
 }
