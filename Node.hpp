@@ -28,7 +28,8 @@ class Node {
 
 public:
 
-	void set_id(){ cout<<"need to automatically set an id to this node"<<endl; }
+	void set_id(string id){ this->id = id; cout<<"need to automatically set an id to this node"<<endl; }
+	string getId(){ return id;}
 	void addLabel(string labelName);
 	void addProperty(string propertyName, string propertyValue);
 	void addEdge (Edge *the_edge){ allEdges.push_back(the_edge); }

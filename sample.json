@@ -1,0 +1,26 @@
+{
+"nodes":{
+        "web":{
+            "label": ["l1", "l2"],
+            "properties" : { "k1":["p1a1","p1b1"], "k2":["p2a1","p2b1"]}
+        },
+        "html":{
+            "label": ["l1", "l2"],
+            "properties" : { "k1":["p1a2","p1b2"], "k2":["p2a2","p2b2"]}
+        }
+    },
+"edges": [
+            {
+                "type" : "shadow",
+                "properties" : { "k1":["p1a","p1b"], "k2":"p2"},
+                "from" : "web",
+                "to" : "html"
+            },
+            {
+                "type" : "ashsdfh",
+                "properties" : { "k1":["p1a","p1b"], "k2":"p2"},
+                "from" : "web",
+                "to" : "html"
+            }
+        ]
+}
