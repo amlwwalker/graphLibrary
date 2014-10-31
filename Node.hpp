@@ -27,7 +27,6 @@ class Edge;
 class Node {
 
 public:
-
 	void addLabel(string labelName);
 	void addProperty(string propertyName, string propertyValue);
 	void sendEdge(string edgeName);

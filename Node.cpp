@@ -1,5 +1,6 @@
 #include "Node.hpp"
 
+
 //a node can have a label and this is added with the function addLabel
 void Node::addLabel(string labelName){
 	labels.push_back(labelName);
@@ -14,10 +15,10 @@ void Node::addProperty(string propertyName, string propertyValue){
 
 //if the node is a starting point, then it sends an edge
 void Node::sendEdge(string edgeName){
-	sentEdges.push_back(edgeName);
+	//sentEdges.push_back(edgeName);
 }
 
 //if the node receives an edge from another node, then it receives an edge.
 void Node::receiveEdge(string edgeName){
-	receivedEdges.push_back(edgeName);
+	//receivedEdges.push_back(edgeName);
 }
