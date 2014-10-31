@@ -105,7 +105,6 @@ int main()
 
 	Node web, html;
 	Edge e;
-	e.printSomething();
 
 	e.setEnd1(&n1);
 	e.setEnd2(&n2);
