@@ -103,7 +103,9 @@ int main()
 
 	n1.addLabel("Alex");
 
+	Node web, html;
 	Edge e;
+	e.printSomething();
 
 	e.setEnd1(&n1);
 	e.setEnd2(&n2);
@@ -127,5 +129,25 @@ int main()
 		}
 
   cout << "Denise and Alex's insane graph database" << endl;
+ 	cout << "Denise and Alex's insane graph database" << endl;
+
+ 	// web.setName("Web");
+ 	web.addLabel("Field");
+ 	web.addLabel("Parent");
+ 	web.addProperty("show_name","Web");
+
+ 	web.printNode();
+
+ 	// html.setName("HTML");
+ 	html.addLabel("Topic");
+ 	html.addLabel("Parent");
+ 	html.addProperty("show_name","HTML");
+
+
+ 	html.printNode();
+
+ 	// e.getEnd1("Web"); e.get
+
+
   return 0;
 }
