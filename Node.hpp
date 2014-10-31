@@ -1,3 +1,7 @@
+
+#ifndef __NODE_HPP_
+#define __NODE_HPP_
+
 #include <cstdlib>
 #include <iostream>
 #include <math.h>
@@ -14,41 +18,28 @@
 #include <numeric>
 #include <map>
 
+
+
 using namespace std;
 
+class Edge;
 
 class Node {
 
 public:
 
-	//a node can have a label and this is added with the function addLabel
-	void addLabel(string labelName){
-		labels.push_back(labelName);
-	}
-
-	//function to add properties to nodes
-	void addProperty(string propertyName, string propertyValue){
-		properties[propertyName] = propertyValue;
-	}
-
-	//whenever an edge is created between two nodes, those nodes need to know about it
-
-	//if the node is a starting point, then it sends an edge
-	void sendEdge(string edgeName){
-		sentEdges.push_back(edgeName);
-	}
-
-	//if the node receives an edge from another node, then it receives an edge.
-	void receiveEdge(string edgeName){
-		receivedEdges.push_back(edgeName);
-	}
+	void addLabel(string labelName);
+	void addProperty(string propertyName, string propertyValue);
+	void sendEdge(string edgeName);
+	void receiveEdge(string edgeName);
 
 private:
 	vector <string> labels;
 	// vector <vector <string> > Properties;
 	map <string, string> properties;
-
 	vector <Edge> sentEdges;
 	vector <Edge> receivedEdges;
 
 };
+
+#endif
