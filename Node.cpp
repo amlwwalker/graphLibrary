@@ -96,8 +96,8 @@ void Node::printNode(){
     for (int i=0; i<allEdges.size(); i++){
     	Edge *curr_edge = allEdges[i];
     	string curr_type = curr_edge -> getTypes()[0];
-    	Node node1 = *(curr_edge -> getEnd1());
-    	Node node2 = *(curr_edge -> getEnd2());
+    	Node node1 = *(curr_edge -> getFrom());
+    	Node node2 = *(curr_edge -> getTo());
     	cout<<"\t\t"<<node1.getProperty("name")[0]<< " "<<curr_type<<" "<<node2.getProperty("name")[0]<<endl;    
     } cout<<endl;
 

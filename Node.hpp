@@ -28,7 +28,7 @@ class Node {
 
 public:
 
-	void set_id(string id){ this->id = id; cout<<"need to automatically set an id to this node"<<endl; }
+	void set_id(string id){ this->id = id; }
 	string getId(){ return id;}
 	void addLabel(string labelName);
 	void addProperty(string propertyName, string propertyValue);
@@ -44,10 +44,10 @@ public:
 	// map <string, vector <*Edge> > getOutgoingMap(){ return sentEdges_map; }
 	// map <string, vector <*Edge> > getIncomingMap(){ return receivedEdges_map; }
 
-	map <string, vector <string> > getProperties();
+	map <string, vector <string>> getProperties();
 	vector <string> getLabels();
 	vector <string> getProperty(string PropertyName){ 
-		map <string, vector <string> > all_properties = getProperties();
+		map <string, vector <string>> all_properties = getProperties();
 		vector <string> property = all_properties[PropertyName];
 		return property;
 	}
@@ -58,7 +58,7 @@ public:
 private:
 	string id;
 	vector <string> labels;
-	map <string, vector <string> > properties;
+	map <string, vector <string>> properties;
 	
 	// map <string, vector <string> > receivedEdges_map;
 	// map <string, Edge> sentEdges_map;

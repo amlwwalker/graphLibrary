@@ -1,26 +1,32 @@
 {
 "nodes":{
         "web":{
-            "label": ["l1", "l2"],
-            "properties" : { "k1":["p1a1","p1b1"], "k2":["p2a1","p2b1"]}
+            "label": ["Field", "Parent"],
+            "properties" : { "name":["web","www"], "dimensions":["100","25"]}
         },
         "html":{
-            "label": ["l1", "l2"],
-            "properties" : { "k1":["p1a2","p1b2"], "k2":["p2a2","p2b2"]}
+            "label": ["Field", "Parent"],
+            "properties" : { "name":["html","hotmeal"], "dimensions":["50","20"]}
+        },
+        "cyber":{
+            "label": ["Field", "Parent"],
+            "properties" : { "name":["cyber","hack"], "dimensions":["25","15"]}
         }
     },
-"edges": [
+"edges":[
             {
-                "type" : "shadow",
-                "properties" : { "k1":["p1a","p1b"], "k2":"p2"},
-                "from" : "web",
+                "id" : "09876",
+                "type" : ["includes"],
+                "properties" : { "weight":["5"], "length":["10"]},
+                "from" : "cyber",
                 "to" : "html"
             },
             {
-                "type" : "ashsdfh",
-                "properties" : { "k1":["p1a","p1b"], "k2":"p2"},
-                "from" : "web",
-                "to" : "html"
+                "id" : "12345",
+                "type" : ["included_in"],
+                "properties" : { "weight":["3"], "length":["7"]},
+                "from" : "html",
+                "to" : "web"
             }
         ]
 }

@@ -16,11 +16,12 @@ public:
 	DatabaseLoader(string filename);
 	~DatabaseLoader();
 	void loadDatabase();
-	vector <Node> getNodes(){return nodeList;}
-	vector <Edge> getEdges(){return edgeList;}
-	void printNodes();
+	vector <Node*> getNodes(){return nodeList;}
+	vector <Edge*> getEdges(){return edgeList;}
+	// void printNodes();
+	// void printEdges();
 private:
 	string mFileName;
-	vector <Node> nodeList; 
-	vector <Edge> edgeList;
+	vector <Node*> nodeList; 
+	vector <Edge*> edgeList;
 };

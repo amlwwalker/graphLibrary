@@ -5,16 +5,18 @@
 #include "Node.hpp"
 #include "Edge.hpp"
 #include "DatabaseLoader.hpp"
+#include "Graph.hpp"
+
 using namespace std;
  
 int main()
 {
 	DatabaseLoader db("sample.json");
+	Graph graph;
 	db.loadDatabase();
-
-	cout << "\n\n outputing list of nodes... " << endl;
+	graph.printNodes(db.getNodes());
+	graph.printEdges(db.getEdges());
 	
-	db.printNodes();
     cout << "\n\n" << endl;
 	Node n1;
 	Node n2;
@@ -24,8 +26,8 @@ int main()
 	Node web, html;
 	Edge e;
 
-	e.setEnd1(&n1);
-	e.setEnd2(&n2);
+	e.setTo(&n1);
+	e.setFrom(&n2);
 
 	e.addType("a type");
 	e.addProperty("propertyKey", "propertyValue");
@@ -36,14 +38,14 @@ int main()
    		cout <<	e.getTypes()[i] << endl;
 	}
 
-	map<std::string, std::string>::iterator it;
+	// map<std::string, std::string>::iterator it;
 
-	for(it = e.getProperties().begin(); it!=e.getProperties().end(); ++it) {
+	// for(it = e.getProperties().begin(); it!=e.getProperties().end(); ++it) {
 			
-			cout << it->first << endl;
-			cout << it->second << endl;
+	// 		cout << it->first << endl;
+	// 		cout << it->second << endl;
 			
-		}
+	// 	}
 
   cout << "Denise and Alex's insane graph database" << endl;
 
@@ -62,8 +64,9 @@ int main()
  	html.addProperty("show_name","HTML2");
 
  	Edge e2;
- 	e2.setEnd1(&web);
-	e2.setEnd2(&html);
+ 	e2.setTo(&web);
+ 	e2.setId("09876");
+	e2.setFrom(&html);
 	e2.addType("includes"); //can we do this all in one step so that in that step the node functions get called too in order to update the nodes?
 	e2.addProperty("strength","5"); //must enforce one type so that the property unambiguously matches a type
 	html.addEdge(&e2);
@@ -71,8 +74,9 @@ int main()
 
 
 	Edge e3;
- 	e3.setEnd1(&html);
-	e3.setEnd2(&web);
+ 	e3.setTo(&html);
+ 	e3.setId("12345");
+	e3.setFrom(&web);
 	e3.addType("included_in"); //can we do this all in one step so that in that step the node functions get called too in order to update the nodes?
 	e3.addProperty("strength","5"); //must enforce one type so that the property unambiguously matches a type
 	html.addEdge(&e3);
