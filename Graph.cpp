@@ -1,11 +1,11 @@
 
 #include "Graph.hpp"
 
-void Graph::printNodes(vector<Node*> nodeList){
-	for (int i = 0; i < nodeList.size(); i++) {
-		cout << "\nNode; ID: " << nodeList[i]->getId() << endl;
+void Graph::printNodes(){
+	for (int i = 0; i < nodeReference.size(); i++) {
+		cout << "\nNode; ID: " << nodeReference[i]->getId() << endl;
 
-		vector <string> tempLabels = nodeList[i]->getLabels();
+		vector <string> tempLabels = nodeReference[i]->getLabels();
 
 		for (int j = 0; j < tempLabels.size(); j++){
 			cout << "\tLabel: " << j << " : " << tempLabels[j] << endl;
@@ -13,7 +13,7 @@ void Graph::printNodes(vector<Node*> nodeList){
 		
 		cout << "Properties:" << endl;
 		//print the properies
-		map<string, vector<string>> tempProperties = nodeList[i]->getProperties();
+		map<string, vector<string>> tempProperties = nodeReference[i]->getProperties();
 		 for (map<string, vector<string>>::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
 		 		//we now have the vector. Now loop over that....
 		 			for (int j = 0; j < it->second.size(); j++){
@@ -22,7 +22,7 @@ void Graph::printNodes(vector<Node*> nodeList){
 		 }
 
 		 cout << "Edges:" << endl;
-		 vector <Edge*> listOfEdges = nodeList[i]->getAllEdges();
+		 vector <Edge*> listOfEdges = nodeReference[i]->getAllEdges();
 		 for (int j = 0; j < listOfEdges.size(); j++) {
 		 	//need a property of an edge
 
@@ -31,16 +31,16 @@ void Graph::printNodes(vector<Node*> nodeList){
 	}
 }
 
-void Graph::printEdges(vector<Edge*> edgeList) {
-	for (int i = 0; i < edgeList.size(); i++) {
+void Graph::printEdges() {
+	for (int i = 0; i < edgeReference.size(); i++) {
 		//print out its types
-		vector <string> tempTypes = edgeList[i]->getTypes();
+		vector <string> tempTypes = edgeReference[i]->getTypes();
 		for (int j = 0; j < tempTypes.size(); j++){
 			cout << "\nEdge:\nType: " << tempTypes[j] << endl;
 		}
 		cout << "Properties:" << endl;
 		//print out its properties
-		map<string, vector<string>> tempProperties = edgeList[i]->getProperties();
+		map<string, vector<string>> tempProperties = edgeReference[i]->getProperties();
 		 for (map<string, vector<string>>::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
 		 		//now have the vector. Now loop over that....
 		 			for (int j = 0; j < it->second.size(); j++){
@@ -48,8 +48,8 @@ void Graph::printEdges(vector<Edge*> edgeList) {
 					}
 		 }
 		//print out where it comes from
-    	cout << "FROM: " << edgeList[i]->getFrom()->getId();
+    	cout << "FROM: " << edgeReference[i]->getFrom()->getId();
     	//print out where it goes to
-    	cout << " --> TO: " << edgeList[i]->getTo()->getId() << endl;
+    	cout << " --> TO: " << edgeReference[i]->getTo()->getId() << endl;
 	}	
 }

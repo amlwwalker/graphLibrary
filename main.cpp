@@ -10,84 +10,62 @@
 using namespace std;
  
 int main()
-{
-	DatabaseLoader db("sample.json");
+{	
+
+	cout << "Denise and Alex's insane graph database" << endl;
+
 	Graph graph;
-	db.loadDatabase();
-	graph.printNodes(db.getNodes());
-	graph.printEdges(db.getEdges());
 	
-    cout << "\n\n" << endl;
-	Node n1;
-	Node n2;
+	//creating nodes and edges from a JSON file
+	DatabaseLoader db("sample.json", graph.getNodeReference(), graph.getEdgeReference());
+	db.loadDatabase();
+	
 
-	n1.addLabel("Alex");
+/*****************************************************/
 
-	Node web, html;
-	Edge e;
-
-	e.setTo(&n1);
-	e.setFrom(&n2);
-
-	e.addType("a type");
-	e.addProperty("propertyKey", "propertyValue");
-
-	vector<string> types = e.getTypes();
-
-	for(int i=0; i < e.getTypes().size(); i++){
-   		cout <<	e.getTypes()[i] << endl;
-	}
-
-	// map<std::string, std::string>::iterator it;
-
-	// for(it = e.getProperties().begin(); it!=e.getProperties().end(); ++it) {
-			
-	// 		cout << it->first << endl;
-	// 		cout << it->second << endl;
-			
-	// 	}
-
-  cout << "Denise and Alex's insane graph database" << endl;
-
+	//creating nodes and edges algorithmically
+	Node dynWeb, dynHtml;
  	// web.setName("Web");
- 	web.addLabel("Field");
- 	web.addLabel("Parent");
- 	web.addProperty("name","Web");
- 	web.addProperty("show_name","Web");
+ 	dynWeb.set_id("dyn_web");
+ 	dynWeb.addLabel("Field");
+ 	dynWeb.addLabel("Parent");
+ 	dynWeb.addProperty("name","dyn_web");
+ 	dynWeb.addProperty("show_name","dyn_web");
+ 	
+ 	graph.addNode(&dynWeb);
+	
+	// graph.printEdges();
+ 	dynHtml.set_id("dyn_HTML");
+ 	dynHtml.addLabel("Topic");
+ 	dynHtml.addLabel("Parent");
+ 	dynHtml.addProperty("name","dyn_HTML");
+ 	dynHtml.addProperty("show_name","dyn_HTML");
+ 	dynHtml.addProperty("show_name","dyn_HTML2");
 
- 	// html.setName("HTML");
- 	html.addLabel("Topic");
- 	html.addLabel("Parent");
+ 	graph.addNode(&dynHtml);
 
- 	html.addProperty("name","HTML");
- 	html.addProperty("show_name","HTML");
- 	html.addProperty("show_name","HTML2");
+ 	
 
  	Edge e2;
- 	e2.setTo(&web);
- 	e2.setId("09876");
-	e2.setFrom(&html);
+ 	//function to set id, from and to nodes directly.
+	e2.setEdge("7363", &dynHtml, &dynWeb);
 	e2.addType("includes"); //can we do this all in one step so that in that step the node functions get called too in order to update the nodes?
 	e2.addProperty("strength","5"); //must enforce one type so that the property unambiguously matches a type
-	html.addEdge(&e2);
-	web.addEdge(&e2);
+	dynHtml.addEdge(&e2);
+	dynWeb.addEdge(&e2);
 
+	graph.addEdge(&e2);
+	
 
 	Edge e3;
- 	e3.setTo(&html);
- 	e3.setId("12345");
-	e3.setFrom(&web);
+	e3.setEdge("2037", &dynWeb, &dynHtml);
+ 	
 	e3.addType("included_in"); //can we do this all in one step so that in that step the node functions get called too in order to update the nodes?
 	e3.addProperty("strength","5"); //must enforce one type so that the property unambiguously matches a type
-	html.addEdge(&e3);
-	web.addEdge(&e3);
-
-
- 	web.printNode();
- 	html.printNode();
-
- 	// e.getEnd1("Web"); e.get
-
-
+	dynHtml.addEdge(&e3);
+	dynWeb.addEdge(&e3);
+	graph.addEdge(&e3);
+	graph.printNodes();
+	
   return 0;
 }

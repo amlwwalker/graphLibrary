@@ -15,6 +15,14 @@ class Node;
 class Edge {
 
 public:
+	
+	void setEdge(string aId, Node* aFromNode, Node *aToNode) {
+
+		id = aId;
+		fromNode = aFromNode;
+		toNode = aToNode;
+	}
+
 	void setId(string id){ this->id = id; }
 	string getId(){ return id;}
 	

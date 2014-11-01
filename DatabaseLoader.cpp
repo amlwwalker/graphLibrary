@@ -2,7 +2,8 @@
 
 #include "DatabaseLoader.hpp"
 
-DatabaseLoader::DatabaseLoader(string aFileName) : mFileName(aFileName){
+DatabaseLoader::DatabaseLoader(string aFileName, vector<Node*> &aNodeList, vector<Edge*> &aEdgeList) 
+										: mFileName(aFileName), nodeList(aNodeList), edgeList(aEdgeList) {
 	//constructor
 }
 DatabaseLoader::~DatabaseLoader(){
