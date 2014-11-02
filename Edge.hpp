@@ -16,13 +16,9 @@ class Edge {
 
 public:
 	
-	void setEdge(string aId, Node* aFromNode, Node *aToNode) {
+	void setEdge(string aId, Node* aFromNode, Node *aToNode);
 
-		id = aId;
-		fromNode = aFromNode;
-		toNode = aToNode;
-	}
-
+	string printEdge();
 	void setId(string id){ this->id = id; }
 	string getId(){ return id;}
 	
@@ -36,16 +32,16 @@ public:
 
 	vector<string> getTypes() { return types; }
 
-	map<string, vector<string>> getProperties() { return properties; }
+	map<string, vector<string> > getProperties() { return properties; }
 	vector <string> getProperty(string propertyName){ 
-		map <string, vector <string>> all_properties = getProperties();
+		map <string, vector <string> > all_properties = getProperties();
 		vector <string> property = all_properties[propertyName];
 		return property;
 	}
 private:
 	string id;
 	vector<string>	types;
-	map<string, vector<string>>		properties;
+	map<string, vector<string> >		properties;
 	Node *fromNode;
 	Node *toNode;
 };

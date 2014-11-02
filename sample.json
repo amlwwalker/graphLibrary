@@ -2,21 +2,21 @@
 "nodes":{
         "web":{
             "label": ["Field", "Parent"],
-            "properties" : { "name":["web","www"], "dimensions":["100","25"]}
+            "properties" : { "name::":["web","www"], "dimensions":["100","25"]}
         },
         "html":{
             "label": ["Field", "Parent"],
-            "properties" : { "name":["html","hotmeal"], "dimensions":["50","20"]}
+            "properties" : { "name::":["html","hotmeal"], "dimensions":["50","20"]}
         },
         "cyber":{
             "label": ["Field", "Parent"],
-            "properties" : { "name":["cyber","hack"], "dimensions":["25","15"]}
+            "properties" : { "name::":["cyber","hack"], "dimensions":["25","15"]}
         }
     },
 "edges":[
             {
                 "id" : "09876",
-                "type" : ["includes"],
+                "type" : ["requires"],
                 "properties" : { "weight":["5"], "length":["10"]},
                 "from" : "cyber",
                 "to" : "html"

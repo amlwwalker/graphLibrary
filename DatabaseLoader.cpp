@@ -60,11 +60,16 @@ void DatabaseLoader::loadDatabase(){
 
 		//assert(it->["properties"].IsObject());
 		// //type is an array
-		// for (int j = 0; j < nodeList.size(); j++) {
-		// for (rapidjson::SizeType i = 0; i < edges[i]["type"].Size(); i++) {
-  //       	tempEdge->addType(edges[i]["type"].GetString());
-		// } 
+		// for (int j = 0; j < edges.size(); j++) {
+		
 		tempEdge->setId(edges[i]["id"].GetString());
+
+		assert(edges[i]["type"].IsArray());
+		for (rapidjson::SizeType i = 0; i < edges[i]["type"].Size(); i++) {
+			// cout << it->value["label"][i].GetString() << endl;
+        	tempEdge->addType(edges[i]["type"][i].GetString());
+		} 
+		
 		//from is a Node, not a string
 		//to is a Node, not a string...
 

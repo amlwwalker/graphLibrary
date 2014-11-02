@@ -8,6 +8,7 @@
 
 using namespace rapidjson;
 
+
 int func(int, char*[]) {
 	////////////////////////////////////////////////////////////////////////////
 	// 1. Parse a JSON text string to a document.
@@ -125,6 +126,7 @@ int func(int, char*[]) {
 	FileStream f(stdout);
 	PrettyWriter<FileStream> writer(f);
 	document.Accept(writer);	// Accept() traverses the DOM and generates Handler events.
+
 
 	return 0;
 }

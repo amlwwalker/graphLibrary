@@ -11,7 +11,13 @@ void Node::addLabel(string labelName){
 void Node::addProperty(string propertyName, string propertyValue){
 	properties[propertyName].push_back( propertyValue );
 }
-
+//function to add array as a property to nodes
+void Node::addProperty(string propertyName, vector<string> propertyValue){
+	for (int i = 0; i < propertyValue.size(); i++) {
+		properties[propertyName].push_back( propertyValue[i] );	
+	}
+	
+}
 // //whenever an edge is created between two nodes, those nodes need to know about it
 
 // vector <*Edge> Node::getOutgoingEdges(){
@@ -25,6 +31,40 @@ void Node::addProperty(string propertyName, string propertyValue){
 vector <Edge*> Node::getAllEdges(){
 	return allEdges;
 }
+
+vector <Edge*> *Node::getEdgesWithType(string type) {
+
+	vector <Edge*> *tempList;
+	tempList = new(vector <Edge*>);
+	for (int i = 0; i < allEdges.size(); i++) {
+
+		Edge *tempEdge = allEdges[i];
+		for (int j = 0; j < tempEdge->getTypes().size(); j++) {
+			if (tempEdge->getTypes()[j] == type) {
+				tempList->push_back(tempEdge);
+			}
+		}	
+	}
+	return tempList;
+}
+
+// vector <Edge*> *Node::getEdgesWithProperty(string propertyKey) {
+
+// //going to return a vector from the edge because a property is an array.
+// // Need to therefore add all the Edges with that property to the vector.	
+// 	vector <Edge*> *tempList;
+// 	tempList = new(vector <Edge*>);
+// 	for (int i = 0; i < allEdges.size(); i++) {
+
+// 		Edge *tempEdge = allEdges[i];
+// 		for (int j = 0; j < tempEdge->getProperties.size(); j++) {
+// 			if (tempEdge->getTypes()[j] == type) {
+// 				tempList->push_back(tempEdge);
+// 			}
+// 		}	
+// 	}
+// 	return tempList;
+// }
 
 // void Node::addOutgoingEdge(Edge *the_edge) { 
 
@@ -63,46 +103,72 @@ vector <string> Node::getLabels(){
 	return labels;
 }
 
-void Node::printNode(){
+string Node::printNode(){
 
-	cout<<"------------------------------------------------------------------------------------------"<<endl;
-	string the_name = getProperty("name")[0];
-	cout<<"Details for Node :"<<getProperty("name")[0]<<endl;
+	// cout<<"------------------------------------------------------------------------------------------"<<endl;
 
-	cout<<"\tLabels: "<<endl; //COUT(getLabels());
-		vector <string> labs = getLabels();
-		cout<<"\t\t";
-		for (int i=0; i<labs.size(); i++){ 
-			cout<<labs[i]; if (i<labs.size()-1){ cout<<", ";  }
-		}cout<<endl;
+	 	// cout << "\nNode; ID: " << getId() << endl << endl;
 
-	cout<<"\tProperties: "<<endl; //mapCOUT(getProperties());
-		map <string, vector<string> > Props = getProperties();
-		// cout<<"\t\t";
+		vector <string> tempLabels = getLabels();
 
-		int ccount = -1;
-		for ( const auto &myPair : Props ) {
-        	std::cout <<"\t\t"<<myPair.first<<": ";
-        	ccount += 1;
-        	for (int i=0; i<myPair.second.size(); i++){
-        		cout<<myPair.second[i]<<" ";
-        	}
-        	cout<<endl;
-        } cout<<endl;
+		string jsonLabels = "[";
+		// cout << "Labels:" << endl << "\t\t";
+		for (int j = 0; j < tempLabels.size(); j++){
+			// cout << "[" << j << "] : " << tempLabels[j] << ", ";
+			jsonLabels += "\""+tempLabels[j]+"\"";
+			if (j != tempLabels.size()-1) {
+				jsonLabels += ",";
+			}
+		}
+		jsonLabels += "]";
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+		// cout << endl;
+		// cout << "Properties:" << endl;
+		string jsonProperties = "{";
+		//print the properies
+		map<string, vector<string> > tempProperties = getProperties();
+		int position = 0; //to check if we have gone over all but one.
+		 for (map<string, vector<string> >::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
+		 		//we now have the vector. Now loop over that....
 
-    cout<<" Edges: "<<endl;
-    for (int i=0; i<allEdges.size(); i++){
-    	Edge *curr_edge = allEdges[i];
-    	string curr_type = curr_edge -> getTypes()[0];
-    	Node node1 = *(curr_edge -> getFrom());
-    	Node node2 = *(curr_edge -> getTo());
-    	cout<<"\t\t"<<node1.getProperty("name")[0]<< " "<<curr_type<<" "<<node2.getProperty("name")[0]<<endl;    
-    } cout<<endl;
+		 	jsonProperties += "\""+it->first+"\":[";
+		 	// cout << "\t\t" << it->first << " : ";
+	 			for (int j = 0; j < it->second.size(); j++){
+	 				jsonProperties += "\""+it->second[j]+"\"";
+					// cout << it->second[j] << ", ";
+					if (j != it->second.size()-1) {
+						jsonProperties += ",";
+					}
 
+				}
+			jsonProperties += "]";
+			
+			// cout << "position: " << position << " size: " << tempProperties.size() << endl;
+			if (position < tempProperties.size()-1) {
+				jsonProperties += ",";
+			}
 
+			// cout << endl;
+			position++;
+		 }
+		 jsonProperties += "}";
 
-     cout<<"------------------------------------------------------------------------------------------"<<endl;
+		 string jsonEdges = "[";
+		 // cout << "Edges:" << endl;
+		 vector <Edge*> listOfEdges = getAllEdges();
+		 for (int j = 0; j < listOfEdges.size(); j++) {
+		 	//need a property of an edge
+		 	// cout << "ID: " << listOfEdges[j]->getId() << endl;
+		 	
+		 	jsonEdges += "\""+listOfEdges[j]->getId()+"\"";
+			if (j != listOfEdges.size()-1) {
+				jsonEdges += ",";
+			}
+		 }
+		 jsonEdges += "]";
 
+     // cout<<"------------------------------------------------------------------------------------------"<<endl;
+
+     string json = "\"" + getId() + "\":{ \"label\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
+     return json;
 }
