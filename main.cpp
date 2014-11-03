@@ -48,7 +48,7 @@ static void showEdge(struct mg_connection *conn) {
 }
 
 static void exampleCalc(struct mg_connection *conn) {
-  char n1[100], n2[100]; //could be buffer overflowed???
+  char n1[100], n2[100]; //could be buffer overflowed???12345
 
   // Get form variables
   mg_get_var(conn, "n1", n1, sizeof(n1));
@@ -108,15 +108,21 @@ void startWebServer(){
 
 
  
-int main(void)
+int main ( int argc, char *argv[] )
 {	
+	// char* database;
+	if ( argc != 2 ) { // argc should be 2 for correct execution
+    // We print argv[0] assuming it is the program name
+    	cout<<"usage: "<< argv[0] <<" <database name>\n";
+		return 0;
+	}
 
-	cout << "Denise and Alex's insane graph database" << endl;
+	cout << "Denise and Alex's insane graph database. \n\tUsing database: " << argv[1] << endl;
 
 	
 	graph = new Graph();
 	  	//creating nodes and edges from a JSON file
-	db = new DatabaseLoader("sample.json", graph->getNodeReference(), graph->getEdgeReference());
+	db = new DatabaseLoader(argv[1], graph->getNodeReference(), graph->getEdgeReference());
 
 
 	db->loadDatabase();	
@@ -156,7 +162,7 @@ int main(void)
 
  	Edge e2;
  	//function to set id, from and to nodes directly.
-	e2.setEdge("7363", &dynHtml, &dynWeb);
+	e2.setUpEdge("7363", &dynHtml, &dynWeb);
 	e2.addType("includes"); //can we do this all in one step so that in that step the node functions get called too in order to update the nodes?
 	e2.addProperty("weight","5"); //must enforce one type so that the property unambiguously matches a type
 	dynHtml.addEdge(&e2);
@@ -166,7 +172,7 @@ int main(void)
 	
 
 	Edge e3;
-	e3.setEdge("2037", &dynWeb, &dynHtml);
+	e3.setUpEdge("2037", graph->findNodeWithId("web"), &dynHtml);
  	
 	e3.addType("included_in"); //can we do this all in one step so that in that step the node functions get called too in order to update the nodes?
 	e3.addProperty("weight","3"); //must enforce one type so that the property unambiguously matches a type
@@ -188,6 +194,7 @@ int main(void)
 			cout << tempEdge[i]->getId() << endl;
 		}
 	}
+
 	startWebServer();
   return 0;
 }

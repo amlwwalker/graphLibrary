@@ -1,7 +1,7 @@
 #include "Edge.hpp"
 
 
-void Edge::setEdge(string aId, Node* aFromNode, Node *aToNode) {
+void Edge::setUpEdge(string aId, Node* aFromNode, Node *aToNode) {
 
 		id = aId;
 		fromNode = aFromNode;

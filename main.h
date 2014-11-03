@@ -9,7 +9,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-int main(void);
+int main ( int argc, char *argv[] );
 #ifdef __cplusplus
 }
 #endif

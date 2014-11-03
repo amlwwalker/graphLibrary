@@ -16,7 +16,7 @@ class Edge {
 
 public:
 	
-	void setEdge(string aId, Node* aFromNode, Node *aToNode);
+	void setUpEdge(string aId, Node* aFromNode, Node *aToNode);
 
 	string printEdge();
 	void setId(string id){ this->id = id; }
