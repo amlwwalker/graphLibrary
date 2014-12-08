@@ -5,6 +5,7 @@
 #include <vector>
 #include "Node.hpp"
 #include "Edge.hpp"
+#include "Graph.hpp"
 #include "rapidjson/document.h"		// rapidjson's DOM-style API
 #include "rapidjson/prettywriter.h"	// for stringify JSON
 #include "rapidjson/filestream.h"	// wrapper of C stream for prettywriter as output
@@ -13,15 +14,10 @@ using namespace std;
 class DatabaseLoader {
 
 public:
-	DatabaseLoader(string filename, vector<Node*> &aNodeList, vector<Edge*> &aEdgeList);
+	DatabaseLoader(string filename, Graph &graph);
 	~DatabaseLoader();
 	void loadDatabase();
-	vector <Node*> &getNodes(){return nodeList;}
-	vector <Edge*> &getEdges(){return edgeList;}
-	// void printNodes();
-	// void printEdges();
 private:
 	string mFileName;
-	vector <Node*> &nodeList; 
-	vector <Edge*> &edgeList;
+	Graph &mGraph;
 };

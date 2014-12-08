@@ -1,7 +1,5 @@
 #include "Node.hpp"
 
-
-
 //a node can have a label and this is added with the function addLabel
 void Node::addLabel(string labelName){
 	labels.push_back(labelName);
@@ -105,10 +103,6 @@ vector <string> Node::getLabels(){
 
 string Node::printNode(){
 
-	// cout<<"------------------------------------------------------------------------------------------"<<endl;
-
-	 	// cout << "\nNode; ID: " << getId() << endl << endl;
-
 		vector <string> tempLabels = getLabels();
 
 		string jsonLabels = "[";
@@ -122,8 +116,6 @@ string Node::printNode(){
 		}
 		jsonLabels += "]";
 
-		// cout << endl;
-		// cout << "Properties:" << endl;
 		string jsonProperties = "{";
 		//print the properies
 		map<string, vector<string> > tempProperties = getProperties();
@@ -142,24 +134,17 @@ string Node::printNode(){
 
 				}
 			jsonProperties += "]";
-			
-			// cout << "position: " << position << " size: " << tempProperties.size() << endl;
+
 			if (position < tempProperties.size()-1) {
 				jsonProperties += ",";
 			}
 
-			// cout << endl;
 			position++;
 		 }
 		 jsonProperties += "}";
-
 		 string jsonEdges = "[";
-		 // cout << "Edges:" << endl;
 		 vector <Edge*> listOfEdges = getAllEdges();
 		 for (int j = 0; j < listOfEdges.size(); j++) {
-		 	//need a property of an edge
-		 	// cout << "ID: " << listOfEdges[j]->getId() << endl;
-		 	
 		 	jsonEdges += "\""+listOfEdges[j]->getId()+"\"";
 			if (j != listOfEdges.size()-1) {
 				jsonEdges += ",";
@@ -167,8 +152,6 @@ string Node::printNode(){
 		 }
 		 jsonEdges += "]";
 
-     // cout<<"------------------------------------------------------------------------------------------"<<endl;
-
-     string json = "\"" + getId() + "\":{ \"label\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
+     string json = "{\"name\":\"" + getId() + "\",\" group \":"+to_string(getGroup())+", \"labels\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
      return json;
 }

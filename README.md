@@ -30,3 +30,26 @@
 * concern over DB injection, although everything is read only at the moment.
 * need to make sure nothing that can be destroyed, isnt being destroyed and there is a memory leak.
 
+
+/*
+
+{
+  "nodes":[
+    {"name":"Myriel","group":1},
+   {"name":"Child1","group":10},
+    {"name":"Child2","group":10},
+    {"name":"Brujon","group":4},
+    {"name":"Mme.Hucheloup","group":8}
+  ],
+  "links":[
+    {"source":1,"target":0,"value":1},
+    {"source":2,"target":0,"value":8},
+    {"source":3,"target":0,"value":10},
+    {"source":3,"target":2,"value":6},
+    {"source":4,"target":0,"value":1},
+    {"source":76,"target":58,"value":1}
+  ]
+}
+
+*/
+

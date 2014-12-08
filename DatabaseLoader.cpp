@@ -1,9 +1,9 @@
 
 
 #include "DatabaseLoader.hpp"
-
-DatabaseLoader::DatabaseLoader(string aFileName, vector<Node*> &aNodeList, vector<Edge*> &aEdgeList) 
-										: mFileName(aFileName), nodeList(aNodeList), edgeList(aEdgeList) {
+#include <iomanip>      // std::setprecision
+DatabaseLoader::DatabaseLoader(string aFileName, Graph &graph) 
+										: mFileName(aFileName), mGraph(graph) {
 	//constructor
 }
 DatabaseLoader::~DatabaseLoader(){
@@ -19,126 +19,103 @@ void DatabaseLoader::loadDatabase(){
 
 
 //loading nodes:
-	const rapidjson::Value& nodes = document["nodes"];
-	// assert(nodes.IsArray());
-	for(rapidjson::Value::ConstMemberIterator it=nodes.MemberBegin(); it != nodes.MemberEnd(); it++) {
+	const rapidjson::Value& data = document["Data"];
+	assert(data.IsArray());
 
-
-		Node *tempNode;
-		tempNode = new(Node);
-
-		tempNode->set_id(it->name.GetString());
-		
-		assert(it->value["label"].IsArray());
-		for (rapidjson::SizeType i = 0; i < it->value["label"].Size(); i++) {
-			// cout << it->value["label"][i].GetString() << endl;
-        	tempNode->addLabel(it->value["label"][i].GetString());
-		} 
-
-		assert(it->value["properties"].IsObject());
-		for(rapidjson::Value::ConstMemberIterator innerIt=it->value["properties"].MemberBegin(); innerIt != it->value["properties"].MemberEnd(); innerIt++) {
-			// cout << innerIt->name.GetString() << endl;
-			assert(innerIt->value.IsArray());
-			for (rapidjson::SizeType i = 0; i < innerIt->value.Size(); i++) {
-        		tempNode->addProperty(innerIt->name.GetString(), innerIt->value[i].GetString());
-			} 
-		}
-   		nodeList.push_back(tempNode);
-	}
-
-
-
-//loading edges:
+//for each object in the data array
+	int uniq = 0;
+	Node *lastNode;
+	for (rapidjson::SizeType i = 0; i < data.Size(); i++) {
+	assert(data[i].IsObject());	
 	
+	Node *tempNode;
+	tempNode = new(Node);
+	//The group is its index based on its position in the list
+	tempNode->setGroup(uniq);
+	
+	mGraph.addNode(tempNode);
+	
+	ostringstream timeStampString;
+	timeStampString << setprecision(15) << data[i]["TimeStamp"].GetDouble();
+	
+	tempNode->setId(timeStampString.str());
 
+	if (lastNode != NULL){
+			Edge* majorEdge;
+			majorEdge = new(Edge);
 
-	const rapidjson::Value& edges = document["edges"];
+			majorEdge->setFrom(lastNode);
+			majorEdge->setTo(tempNode);
 
-	for (rapidjson::SizeType i = 0; i < edges.Size(); i++) {
-		Edge *tempEdge;
-		tempEdge = new(Edge);
+			lastNode->addEdge(majorEdge);
+			tempNode->addEdge(majorEdge);
 
-		//assert(it->["properties"].IsObject());
-		// //type is an array
-		// for (int j = 0; j < edges.size(); j++) {
-		
-		tempEdge->setId(edges[i]["id"].GetString());
+			majorEdge->setWeight(3);
 
-		assert(edges[i]["type"].IsArray());
-		for (rapidjson::SizeType i = 0; i < edges[i]["type"].Size(); i++) {
-			// cout << it->value["label"][i].GetString() << endl;
-        	tempEdge->addType(edges[i]["type"][i].GetString());
-		} 
-		
-		//from is a Node, not a string
-		//to is a Node, not a string...
-
-		//assert(edges[i]["properties"].IsObject());
-		for(rapidjson::Value::ConstMemberIterator innerIt=edges[i]["properties"].MemberBegin(); innerIt != edges[i]["properties"].MemberEnd(); innerIt++) {
-			// cout << innerIt->name.GetString() << endl;
-			assert(innerIt->value.IsArray());
-			for (rapidjson::SizeType i = 0; i < innerIt->value.Size(); i++) {
-        		tempEdge->addProperty(innerIt->name.GetString(), innerIt->value[i].GetString());
-			} 
-		}
-		assert(edges[i]["from"].IsString());
-		bool fromSet = false;
-		bool toSet = false;
-		for (int j = 0; j < nodeList.size(); j++) {
-
-			if (nodeList[j]->getId() == edges[i]["from"].GetString()) {
-				nodeList[j]->addEdge(tempEdge);
-				 // cout << "(from) NODE: " << nodeList[j].getId() << " : " << edges[i]["from"].GetString() << endl;
-				tempEdge->setFrom(nodeList[j]);
-				fromSet = true;
-			} else if (nodeList[j]->getId() == edges[i]["to"].GetString()) {
-				 // cout << "(to) NODE: " << nodeList[j].getId() << " : " << edges[i]["to"].GetString() << endl;
-				nodeList[j]->addEdge(tempEdge);
-				tempEdge->setTo(nodeList[j]);
-				toSet = true;
-			}
-			if (fromSet && toSet){
-				break;
-			}
-		}
-		edgeList.push_back(tempEdge);
+			majorEdge->setId(to_string(uniq));
+			mGraph.addEdge(majorEdge);
 	}
 
-	// 	for(rapidjson::Value::ConstMemberIterator it=nodes.MemberBegin(); it != nodes.MemberEnd(); it++) {
-	// 	Edge *tempEdge;
-	// 	tempEdge = new(Edge);
-	// 	assert(it->value["properties"].IsObject());
-	// 	for(rapidjson::Value::ConstMemberIterator innerIt=it->value["properties"].MemberBegin(); innerIt != it->value["properties"].MemberEnd(); innerIt++) {
-	// 		// cout << innerIt->name.GetString() << endl;
-	// 		assert(innerIt->value.IsArray());
-	// 		for (rapidjson::SizeType i = 0; i < innerIt->value.Size(); i++) {
- //        		tempEdge->addProperty(innerIt->name.GetString(), innerIt->value[i].GetString());
-	// 		} 
-	// 	}
-	// 	cout << "HEREHEREHERE: " << it->value["from"][0].GetString() << endl ;
-	// 	//assert(it->value["from"].IsString());
-	// 	// assert(it->value["from"].IsString());
-	// 	bool fromSet = false;
-	// 	bool toSet = false;
-	// 	// for (int j = 0; j < nodeList.size(); j++) {
+		for(rapidjson::Value::ConstMemberIterator it=data[i]["Odds"].MemberBegin(); it != data[i]["Odds"].MemberEnd(); it++) {
+				uniq++;
+				assert(it->value.IsObject());
+				
+				tempNode->addProperty("children", it->name.GetString());
 
-	// 	// 	if (nodeList[j]->getId() == it->value["from"].GetString()) {
-	// 	// 		nodeList[j]->addEdge(tempEdge);
-	// 	// 		 // cout << "(from) NODE: " << nodeList[j].getId() << " : " << edges[i]["from"].GetString() << endl;
-	// 	// 		tempEdge->setFrom(nodeList[j]);
-	// 	// 		fromSet = true;
-	// 	// 	} else if (nodeList[j]->getId() == it->value["to"].GetString()) {
-	// 	// 		 // cout << "(to) NODE: " << nodeList[j].getId() << " : " << edges[i]["to"].GetString() << endl;
-	// 	// 		nodeList[j]->addEdge(tempEdge);
-	// 	// 		tempEdge->setTo(nodeList[j]);
-	// 	// 		toSet = true;
-	// 	// 	}
-	// 	// 	if (fromSet && toSet){
-	// 	// 		break;
-	// 	// 	}
-	// 	// }
-	// 	edgeList.push_back(tempEdge);
-	// }
- 	
+				Node *tempBookieNode;
+				tempBookieNode = new(Node);
+
+				tempBookieNode->setGroup(uniq);
+				mGraph.addNode(tempBookieNode);
+
+				tempBookieNode->setId(it->name.GetString());
+				tempBookieNode->addProperty("parent", timeStampString.str());
+				Edge *tempBookieEdge;
+				tempBookieEdge = new(Edge);
+
+				tempBookieEdge->setTo(tempNode);
+				tempBookieEdge->setFrom(tempBookieNode);
+
+				tempNode->addEdge(tempBookieEdge);
+				tempBookieNode->addEdge(tempBookieEdge);
+
+				tempBookieEdge->setId(to_string(uniq));
+				tempBookieEdge->setWeight(3);
+				mGraph.addEdge(tempBookieEdge);
+
+				for(rapidjson::Value::ConstMemberIterator innerIt=it->value.MemberBegin(); innerIt != it->value.MemberEnd(); innerIt++) {
+					
+					string name = innerIt->name.GetString();
+					double value = innerIt->value.GetDouble();
+
+					uniq++;
+					
+					tempBookieNode->addProperty("children", name);
+
+					Node *tempOddNode;
+					tempOddNode = new(Node);
+					tempOddNode->setGroup(uniq);
+					mGraph.addNode(tempOddNode);
+					
+					tempOddNode->setId(name);
+					tempOddNode->addProperty("parent", tempBookieNode->getId());
+					tempOddNode->addProperty("price", to_string(value));
+					Edge *tempOddEdge;
+					tempOddEdge = new(Edge);
+					tempOddEdge->setTo(tempBookieNode);
+					tempOddEdge->setFrom(tempOddNode);
+
+					tempBookieNode->addEdge(tempOddEdge);
+					tempOddNode->addEdge(tempOddEdge);
+
+					tempOddEdge->setId(to_string(uniq)); //random name
+
+					tempOddEdge->setWeight(3);
+					mGraph.addEdge(tempOddEdge);	
+				}	
+		}
+		lastNode = tempNode;
+		uniq++;
+	}
 }
 

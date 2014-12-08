@@ -8,17 +8,30 @@ using namespace std;
 Graph *graph;
 DatabaseLoader *db;
 
-//WEB SERVER STUFF:
+//WEB SERVER STUFF: WARNING VULNERABLE TO POTENTIAL ATTACK
+//currently this may crash the program if an invalid parameter 
+//is parsed in.
 static const char *s_no_cache_header =
   "Cache-Control: max-age=0, post-check=0, "
   "pre-check=0, no-store, no-cache, must-revalidate\r\n";
 
+static void showAll(struct mg_connection *conn) {
+	char length[100];
+  cout << "show all" << endl;
+	mg_get_var(conn, "length", length, sizeof(length));
+  mg_printf_data(conn, graph->printEverything(*graph->getNodes(),*graph->getEdges(), strtod(length, NULL)).c_str());
+}
+
 static void showAllNodes(struct mg_connection *conn) {
-  mg_printf_data(conn, graph->printNodesToJson().c_str());
+	char length[100];
+	mg_get_var(conn, "length", length, sizeof(length));
+  mg_printf_data(conn, graph->printNodesToJson(*graph->getNodes(), strtod(length, NULL)).c_str());
 }
 
 static void showAllEdges(struct mg_connection *conn) {
-  mg_printf_data(conn, graph->printEdgesToJson().c_str());
+	char length[100];
+	mg_get_var(conn, "length", length, sizeof(length));
+  mg_printf_data(conn, graph->printEdgesToJson(*graph->getEdges(), strtod(length, NULL)).c_str());
 }
 
 static void showNode(struct mg_connection *conn) {
@@ -32,6 +45,20 @@ static void showNode(struct mg_connection *conn) {
 	}
 
   mg_printf_data(conn, graph->printNodeToJson(n).c_str());
+}
+static void graphNeighbouringNodes(struct mg_connection *conn) {
+  char nodeId[100];
+  mg_get_var(conn, "id", nodeId, sizeof(nodeId));
+  //crashes if the id doesnt exist (or isnt set)
+  Node *n = graph->findNodeWithId(nodeId); //finds the first one?
+  if (n == NULL){
+    mg_printf_data(conn, "Sorry no node found...");
+    return;
+  }
+  vector<Node*> *nodes;
+  nodes = graph->getNeighbouringNodes(n);
+  mg_printf_data(conn, graph->printEverything(*nodes, graph->getEdgesOnNode(n)).c_str());
+  delete(nodes);
 }
 
 static void showEdge(struct mg_connection *conn) {
@@ -66,12 +93,20 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
         exampleCalc(conn);
         return MG_TRUE;
       }
+      else if (!strcmp(conn->uri, "/showAll")) {
+        showAll(conn);
+        return MG_TRUE;
+      }
       else if (!strcmp(conn->uri, "/showAllNodes")) {
         showAllNodes(conn);
         return MG_TRUE;
       }
       else if (!strcmp(conn->uri, "/showNode")) {
         showNode(conn);
+        return MG_TRUE;
+      }
+      else if (!strcmp(conn->uri, "/displayNode")) {
+        graphNeighbouringNodes(conn);
         return MG_TRUE;
       }
       else if (!strcmp(conn->uri, "/showAllEdges")) {
@@ -81,6 +116,10 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
       else if (!strcmp(conn->uri, "/showEdge")) {
         showEdge(conn);
         return MG_TRUE;
+      }
+      else if (!strcmp(conn->uri, "/graph")) {
+        mg_send_file(conn, "graph.html", s_no_cache_header);
+        return MG_MORE;
       }
       mg_send_file(conn, "index.html", s_no_cache_header);
       return MG_MORE;
@@ -104,97 +143,27 @@ void startWebServer(){
   // Cleanup, and free server instance
   mg_destroy_server(&server);
 }
-//////
 
-
- 
 int main ( int argc, char *argv[] )
 {	
 	// char* database;
 	if ( argc != 2 ) { // argc should be 2 for correct execution
     // We print argv[0] assuming it is the program name
-    	cout<<"usage: "<< argv[0] <<" <database name>\n";
+    	cout<<"usage: "<< argv[0] <<" <file name>\n";
 		return 0;
 	}
+//The idea is to load all of the json in the mentioned file
+//and create a graph of the data
+//the output that to the browser
 
-	cout << "Denise and Alex's insane graph database. \n\tUsing database: " << argv[1] << endl;
-
-	
 	graph = new Graph();
 	  	//creating nodes and edges from a JSON file
-	db = new DatabaseLoader(argv[1], graph->getNodeReference(), graph->getEdgeReference());
-
+	db = new DatabaseLoader(argv[1], *graph);
+  cout << "graph size: " << graph->getNodes()->size() << endl;
 
 	db->loadDatabase();	
 
-// /*****************************************************/
-
-	//creating nodes and edges algorithmically
-	Node dynWeb, dynHtml;
- 	// web.setName("Web");
- 	dynWeb.set_id("dyn_web");
- 	dynWeb.addLabel("Field");
- 	dynWeb.addLabel("Parent");
- 	dynWeb.addProperty("name::","dyn_web");
- 	dynWeb.addProperty("show_name","dyn_web");
- 	vector<string> dynWebDimensions;
- 	// dynWebDimensions = new(vector<string>);
- 	dynWebDimensions.push_back("33");
- 	dynWebDimensions.push_back("84");
- 	dynWeb.addProperty("dimensions", dynWebDimensions);
- 	
- 	graph->addNode(&dynWeb);
-	
-	// graph.printEdges();
- 	dynHtml.set_id("dyn_HTML");
- 	dynHtml.addLabel("Topic");
- 	dynHtml.addLabel("Parent");
- 	dynHtml.addProperty("name::","dyn_HTML");
- 	dynHtml.addProperty("show_name","dyn_HTML");
-	vector<string> dynHtmlDimensions; //as this is a value and not a pointer it will be destroyed later
-	dynHtmlDimensions.push_back("33");
- 	dynHtmlDimensions.push_back("66");
- 	dynHtml.addProperty("dimensions", dynHtmlDimensions);
- 	
- 	graph->addNode(&dynHtml);
-
- 	
-
- 	Edge e2;
- 	//function to set id, from and to nodes directly.
-	e2.setUpEdge("7363", &dynHtml, &dynWeb);
-	e2.addType("includes"); //can we do this all in one step so that in that step the node functions get called too in order to update the nodes?
-	e2.addProperty("weight","5"); //must enforce one type so that the property unambiguously matches a type
-	dynHtml.addEdge(&e2);
-	dynWeb.addEdge(&e2);
-
-	graph->addEdge(&e2);
-	
-
-	Edge e3;
-	e3.setUpEdge("2037", graph->findNodeWithId("web"), &dynHtml);
- 	
-	e3.addType("included_in"); //can we do this all in one step so that in that step the node functions get called too in order to update the nodes?
-	e3.addProperty("weight","3"); //must enforce one type so that the property unambiguously matches a type
-	dynHtml.addEdge(&e3);
-	dynWeb.addEdge(&e3);
-	
-	graph->addEdge(&e3);
-	
-	//graph.printNodes();
-	//graph.printEdges();
-
-	//testing if can get edges of a certain type:
-
-	vector <Edge*> * edgeList = dynHtml.getEdgesWithType("includes");
-	//why do I need two loops to do this, this suggests that this is a vector <vector <Edge*>> - whats going on?
-	for (int i = 0; i < edgeList->size(); i++) {
-		vector <Edge*> tempEdge = edgeList[i];
-		for (int j = 0; j < tempEdge.size(); j++){
-			cout << tempEdge[i]->getId() << endl;
-		}
-	}
-
+  cout << "graph size after load: " << graph->getNodes()->size() << endl;
 	startWebServer();
   return 0;
 }

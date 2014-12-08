@@ -26,13 +26,14 @@ class Node {
 
 public:
 
-	void set_id(string id){ this->id = id; }
+	void setId(string id){ this->id = id; }
 	string getId(){ return id;}
 	void addLabel(string labelName);
 	void addProperty(string propertyName, string propertyValue);
 	void addProperty(string propertyName, vector<string> propertyValue);
 	void addEdge (Edge *the_edge){ allEdges.push_back(the_edge); }
-
+	void setGroup(uint64_t group) { this->group = group;}
+	uint64_t getGroup() { return group;}
 	// void addOutgoingEdge(Edge *the_edge);
 	// void addReceivingEdge(Edge *the_edge);
 
@@ -57,14 +58,9 @@ public:
 	
 private:
 	string id;
+	uint64_t group;
 	vector <string> labels;
 	map <string, vector <string> > properties;
-	
-	// map <string, vector <string> > receivedEdges_map;
-	// map <string, Edge> sentEdges_map;
-
-	// vector <*Edge> sentEdges;
-	// vector <*Edge> receivedEdges;
 	vector <Edge*> allEdges;
 
 };

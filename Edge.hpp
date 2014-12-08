@@ -26,9 +26,11 @@ public:
 	Node *getTo(){return toNode;}
 	void setFrom(Node *node) {fromNode= node;}
 	void setTo(Node *node) {toNode = node;}
-
+	void setWeight(int weight) { this->weight = weight; }
+	int getWeight() {return weight; }
 	void addType(string typeName) { types.push_back(typeName); }
 	void addProperty(string propertyName, string propertyValue) { properties[propertyName].push_back( propertyValue ); }
+
 
 	vector<string> getTypes() { return types; }
 
@@ -44,6 +46,7 @@ private:
 	map<string, vector<string> >		properties;
 	Node *fromNode;
 	Node *toNode;
+	int weight;
 };
 
 #endif
