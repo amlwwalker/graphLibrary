@@ -15,4 +15,4 @@ $(PROG): $(CSOURCES)
 	$(CXX) -o $(PROG) ./*.o
 
 clean:
-	rm -rf $(PROG) *.exe *.dSYM *.obj *.exp .*o *.lib *.out
+	rm -rf $(PROG) *.exe *.dSYM *.obj *.exp *.o *.lib *.out
