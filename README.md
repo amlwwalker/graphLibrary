@@ -1,5 +1,15 @@
 ##SUPER AWESOME GRAPH LIBRARY
 
+DatabaseLoader.cpp loads the json in. The only cpp file required to be edited
+See the example that loads some json data of qpr vs burnley.
+To understand how to load json see tutorial.cpp
+Check graph.html to see how the d3 works.
+Mongoose is the webserver, all end points are in main.cpp
+Can add more end points to kick off queries within the DB.
+
+Graph object should own the lists of nodes and edges and should do standard queries on them.
+A new class (Algorithms.cpp or something) should handle specific queries for a specific problem.
+The d3 can hit any end point that returns json - however putting limits on the data doesnt currently work as my understanding of d3 is not very good. I.e the length get parameter that can be added currently is not used.
 
 ###To Do:
 
@@ -31,25 +41,5 @@
 * need to make sure nothing that can be destroyed, isnt being destroyed and there is a memory leak.
 
 
-/*
 
-{
-  "nodes":[
-    {"name":"Myriel","group":1},
-   {"name":"Child1","group":10},
-    {"name":"Child2","group":10},
-    {"name":"Brujon","group":4},
-    {"name":"Mme.Hucheloup","group":8}
-  ],
-  "links":[
-    {"source":1,"target":0,"value":1},
-    {"source":2,"target":0,"value":8},
-    {"source":3,"target":0,"value":10},
-    {"source":3,"target":2,"value":6},
-    {"source":4,"target":0,"value":1},
-    {"source":76,"target":58,"value":1}
-  ]
-}
-
-*/
 
