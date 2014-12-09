@@ -158,13 +158,14 @@ int main ( int argc, char *argv[] )
 
 	graph = new Graph();
 	  	//creating nodes and edges from a JSON file
-	db = new DatabaseLoader(argv[1], *graph);
+	cout << "Loading database" << endl;
+  db = new DatabaseLoader(argv[1], *graph);
   cout << "graph size: " << graph->getNodes()->size() << endl;
 
 	db->loadDatabase();	
 
   cout << "graph size after load: " << graph->getNodes()->size() << endl;
-	startWebServer();
+	//startWebServer();
   return 0;
 }
 
