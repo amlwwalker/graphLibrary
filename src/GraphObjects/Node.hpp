@@ -1,4 +1,4 @@
-
+// # 2014 Walking Software
 #ifndef __NODE_HPP_
 #define __NODE_HPP_
 

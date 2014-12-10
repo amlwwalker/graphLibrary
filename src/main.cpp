@@ -1,9 +1,7 @@
-// 'Hello World!' program 
+//# 2014 Walking Software
  
 #include "main.h"
 using namespace std;
-
-
 
 Graph *graph;
 DatabaseLoader *db;

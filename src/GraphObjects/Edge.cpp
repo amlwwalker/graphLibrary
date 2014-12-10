@@ -1,3 +1,4 @@
+// # 2014 Walking Software
 #include "Edge.hpp"
 
 

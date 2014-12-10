@@ -1,10 +1,11 @@
+// # 2014 Walking Software
 #include <iostream>
 #include <vector>
-#include "Node.hpp"
-#include "Edge.hpp"
-#include "DatabaseLoader.hpp"
+#include "GraphObjects/Node.hpp"
+#include "GraphObjects/Edge.hpp"
+#include "Loader/DatabaseLoader.hpp"
 #include "Graph.hpp"
-#include "mongoose.h"
+#include "webserver/mongoose.h"
 
 #ifdef __cplusplus
 extern "C" {

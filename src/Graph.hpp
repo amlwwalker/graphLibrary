@@ -1,11 +1,12 @@
+// # 2014 Walking Software
 #ifndef __GRAPH_HPP_
 #define __GRAPH_HPP_
 
 #include <vector>
 #include <map>
 #include <string.h>
-#include "Node.hpp"
-#include "Edge.hpp"
+#include "GraphObjects/Node.hpp"
+#include "GraphObjects/Edge.hpp"
 
 
 using namespace std;

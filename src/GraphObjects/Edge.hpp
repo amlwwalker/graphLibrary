@@ -1,4 +1,4 @@
-// #include "Node.hpp"
+// # 2014 Walking Software
 
 #ifndef __EDGE_HPP_
 #define __EDGE_HPP_

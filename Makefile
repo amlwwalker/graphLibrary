@@ -1,13 +1,16 @@
-# Copyright (c) 2014 Cesanta Software
-# All rights reserved
+# 2014 Walking Software
 
-PROG = main
+PROG = graphdb
 CXX = g++
 CC = gcc
 CFLAGS = -W -Wall -I../.. -pthread -g -O0 $(CFLAGS_EXTRA)
 CXXFLAGS = -std=c++11
-CSOURCES = ./*.c
-CXXSOURCES = ./*.cpp
+
+# Make does not offer a recursive wildcard function, so here's one:
+rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+
+CSOURCES = $(call rwildcard,./src/,*.c)
+CXXSOURCES = $(call rwildcard,./src/,*.cpp) $(call rwildcard,./src/*/,*.cpp)
 
 $(PROG): $(CSOURCES)
 	$(CC) -c $(CSOURCES) $(CFLAGS)

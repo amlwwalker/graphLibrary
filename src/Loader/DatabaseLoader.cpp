@@ -1,4 +1,4 @@
-
+// # 2014 Walking Software
 
 #include "DatabaseLoader.hpp"
 #include <iomanip>      // std::setprecision

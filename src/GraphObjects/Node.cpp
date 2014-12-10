@@ -1,3 +1,4 @@
+// # 2014 Walking Software
 #include "Node.hpp"
 
 //a node can have a label and this is added with the function addLabel
