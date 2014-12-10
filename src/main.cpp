@@ -1,10 +1,9 @@
 //# 2014 Walking Software
  
 #include "main.h"
-using namespace std;
 
-Graph *graph;
-DatabaseLoader *db;
+graphDB::Graph *graph;
+graphDB::DatabaseLoader *db;
 
 //WEB SERVER STUFF: WARNING VULNERABLE TO POTENTIAL ATTACK
 //currently this may crash the program if an invalid parameter 
@@ -15,7 +14,7 @@ static const char *s_no_cache_header =
 
 static void showAll(struct mg_connection *conn) {
 	char length[100];
-  cout << "show all" << endl;
+  std::cout << "show all" << std::endl;
 	mg_get_var(conn, "length", length, sizeof(length));
   mg_printf_data(conn, graph->printEverything(*graph->getNodes(),*graph->getEdges(), strtod(length, NULL)).c_str());
 }
@@ -36,7 +35,7 @@ static void showNode(struct mg_connection *conn) {
 	char nodeId[100];
 	mg_get_var(conn, "id", nodeId, sizeof(nodeId));
 	//crashes if the id doesnt exist (or isnt set)
-	Node *n = graph->findNodeWithId(nodeId);
+	graphDB::Node *n = graph->findNodeWithId(nodeId);
 	if (n == NULL){
 		mg_printf_data(conn, "Sorry no node found...");
 		return;
@@ -48,12 +47,12 @@ static void graphNeighbouringNodes(struct mg_connection *conn) {
   char nodeId[100];
   mg_get_var(conn, "id", nodeId, sizeof(nodeId));
   //crashes if the id doesnt exist (or isnt set)
-  Node *n = graph->findNodeWithId(nodeId); //finds the first one?
+  graphDB::Node *n = graph->findNodeWithId(nodeId); //finds the first one?
   if (n == NULL){
     mg_printf_data(conn, "Sorry no node found...");
     return;
   }
-  vector<Node*> *nodes;
+  std::vector<graphDB::Node*> *nodes;
   nodes = graph->getNeighbouringNodes(n);
   mg_printf_data(conn, graph->printEverything(*nodes, graph->getEdgesOnNode(n)).c_str());
   delete(nodes);
@@ -63,7 +62,7 @@ static void showEdge(struct mg_connection *conn) {
 	char edgeId[100];
 	mg_get_var(conn, "id", edgeId, sizeof(edgeId));
 	//crashes if the id doesnt exist (or isnt set)
-	Edge *e = graph->findEdgeWithId(edgeId);
+	graphDB::Edge *e = graph->findEdgeWithId(edgeId);
 	if (e == NULL){
 		mg_printf_data(conn, "Sorry no edge found...");
 		return;
@@ -147,21 +146,21 @@ int main ( int argc, char *argv[] )
 	// char* database;
 	if ( argc != 2 ) { // argc should be 2 for correct execution
     // We print argv[0] assuming it is the program name
-    	cout<<"usage: "<< argv[0] <<" <file name>\n";
+    	std::cout <<"usage: "<< argv[0] <<" <file name>" << std::endl ;
 		return 0;
 	}
 //The idea is to load all of the json in the mentioned file
 //and create a graph of the data
 //the output that to the browser
 
-	graph = new Graph();
+	graph = new graphDB::Graph();
 	  	//creating nodes and edges from a JSON file
-	db = new DatabaseLoader(argv[1], *graph);
-  cout << "graph size: " << graph->getNodes()->size() << endl;
+	db = new graphDB::DatabaseLoader(argv[1], *graph);
+  std::cout << "graph size: " << graph->getNodes()->size() << std::endl;
 
 	db->loadDatabase();	
 
-  cout << "graph size after load: " << graph->getNodes()->size() << endl;
+  std::cout << "graph size after load: " << graph->getNodes()->size() << std::endl;
 	startWebServer();
   return 0;
 }

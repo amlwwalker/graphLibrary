@@ -1,18 +1,19 @@
 // # 2014 Walking Software
 #include "Edge.hpp"
 
+using namespace graphDB;
 
-void Edge::setUpEdge(string aId, Node* aFromNode, Node *aToNode) {
+void Edge::setUpEdge(std::string aId, Node* aFromNode, Node *aToNode) {
 
 		id = aId;
 		fromNode = aFromNode;
 		toNode = aToNode;
 }
 
-string Edge::printEdge() {
+std::string Edge::printEdge() {
 			//print out its types
-		string jsonTypes = "[";
-		vector <string> tempTypes = getTypes();
+		std::string jsonTypes = "[";
+		std::vector <std::string> tempTypes = getTypes();
 		for (int j = 0; j < tempTypes.size(); j++){
 			jsonTypes += "\""+tempTypes[j]+"\"";
 			if (j != tempTypes.size()-1) {
@@ -20,10 +21,10 @@ string Edge::printEdge() {
 			}
 		}
 		jsonTypes += "]";
-		string jsonProperties = "{";
-		map<string, vector<string> > tempProperties = getProperties();
+		std::string jsonProperties = "{";
+		std::map<std::string, std::vector<std::string> > tempProperties = getProperties();
 		int position = 0; //to check if we have gone over all but one.
-		 for (map<string, vector<string> >::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
+		 for (std::map<std::string, std::vector<std::string> >::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
 		 		//we now have the vector. Now loop over that....
 
 		 	jsonProperties += "\""+it->first+"\":[";
@@ -42,9 +43,9 @@ string Edge::printEdge() {
 		 }
 		 jsonProperties += "}";
 
-		 string jsonFrom = to_string(getFrom()->getGroup());
-		 string jsonTo = to_string(getTo()->getGroup());
+		 std::string jsonFrom = std::to_string(getFrom()->getGroup());
+		 std::string jsonTo = std::to_string(getTo()->getGroup());
 		 
-		 string json = "{\"id\": \""+getId()+"\", \"type\":"+jsonTypes+", \"properties\":"+ jsonProperties+", \"source\":"+jsonFrom+",\"target\":"+jsonTo+", \"value\":"+to_string(getWeight())+"}";
+		 std::string json = "{\"id\": \""+getId()+"\", \"type\":"+jsonTypes+", \"properties\":"+ jsonProperties+", \"source\":"+jsonFrom+",\"target\":"+jsonTo+", \"value\":"+std::to_string(getWeight())+"}";
     return json;
 }

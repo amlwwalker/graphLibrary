@@ -8,45 +8,44 @@
 #include <string.h>
 #include "Node.hpp"
 
-using namespace std;
+namespace graphDB {
+	class Node;
 
-class Node;
+	class Edge {
 
-class Edge {
+	public:
+		
+		void setUpEdge(std::string aId, Node* aFromNode, Node *aToNode);
 
-public:
-	
-	void setUpEdge(string aId, Node* aFromNode, Node *aToNode);
-
-	string printEdge();
-	void setId(string id){ this->id = id; }
-	string getId(){ return id;}
-	
-	Node *getFrom(){return fromNode;}
-	Node *getTo(){return toNode;}
-	void setFrom(Node *node) {fromNode= node;}
-	void setTo(Node *node) {toNode = node;}
-	void setWeight(int weight) { this->weight = weight; }
-	int getWeight() {return weight; }
-	void addType(string typeName) { types.push_back(typeName); }
-	void addProperty(string propertyName, string propertyValue) { properties[propertyName].push_back( propertyValue ); }
+		std::string printEdge();
+		void setId(std::string id){ this->id = id; }
+		std::string getId(){ return id;}
+		
+		Node *getFrom(){return fromNode;}
+		Node *getTo(){return toNode;}
+		void setFrom(Node *node) {fromNode= node;}
+		void setTo(Node *node) {toNode = node;}
+		void setWeight(int weight) { this->weight = weight; }
+		int getWeight() {return weight; }
+		void addType(std::string typeName) { types.push_back(typeName); }
+		void addProperty(std::string propertyName, std::string propertyValue) { properties[propertyName].push_back( propertyValue ); }
 
 
-	vector<string> getTypes() { return types; }
+		std::vector<std::string> getTypes() { return types; }
 
-	map<string, vector<string> > getProperties() { return properties; }
-	vector <string> getProperty(string propertyName){ 
-		map <string, vector <string> > all_properties = getProperties();
-		vector <string> property = all_properties[propertyName];
-		return property;
-	}
-private:
-	string id;
-	vector<string>	types;
-	map<string, vector<string> >		properties;
-	Node *fromNode;
-	Node *toNode;
-	int weight;
-};
-
+		std::map<std::string, std::vector<std::string> > getProperties() { return properties; }
+		std::vector <std::string> getProperty(std::string propertyName){ 
+			std::map <std::string, std::vector <std::string> > all_properties = getProperties();
+			std::vector <std::string> property = all_properties[propertyName];
+			return property;
+		}
+	private:
+		std::string id;
+		std::vector<std::string>	types;
+		std::map<std::string, std::vector<std::string> >		properties;
+		Node *fromNode;
+		Node *toNode;
+		int weight;
+	};
+}
 #endif

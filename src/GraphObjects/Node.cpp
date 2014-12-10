@@ -1,17 +1,19 @@
 // # 2014 Walking Software
 #include "Node.hpp"
 
+using namespace graphDB;
+
 //a node can have a label and this is added with the function addLabel
-void Node::addLabel(string labelName){
+void Node::addLabel(std::string labelName){
 	labels.push_back(labelName);
 }
 
 //function to add properties to nodes
-void Node::addProperty(string propertyName, string propertyValue){
+void Node::addProperty(std::string propertyName, std::string propertyValue){
 	properties[propertyName].push_back( propertyValue );
 }
 //function to add array as a property to nodes
-void Node::addProperty(string propertyName, vector<string> propertyValue){
+void Node::addProperty(std::string propertyName, std::vector<std::string> propertyValue){
 	for (int i = 0; i < propertyValue.size(); i++) {
 		properties[propertyName].push_back( propertyValue[i] );	
 	}
@@ -27,14 +29,14 @@ void Node::addProperty(string propertyName, vector<string> propertyValue){
 // 	return receivedEdges;
 // }
 
-vector <Edge*> Node::getAllEdges(){
+std::vector <Edge*> Node::getAllEdges(){
 	return allEdges;
 }
 
-vector <Edge*> *Node::getEdgesWithType(string type) {
+std::vector <Edge*> *Node::getEdgesWithType(std::string type) {
 
-	vector <Edge*> *tempList;
-	tempList = new(vector <Edge*>);
+	std::vector <Edge*> *tempList;
+	tempList = new(std::vector <Edge*>);
 	for (int i = 0; i < allEdges.size(); i++) {
 
 		Edge *tempEdge = allEdges[i];
@@ -95,18 +97,18 @@ vector <Edge*> *Node::getEdgesWithType(string type) {
 // 	}
 // }
 
-map <string, vector <string> > Node::getProperties(){
+std::map <std::string, std::vector <std::string> > Node::getProperties(){
 	return properties;
 }
-vector <string> Node::getLabels(){
+std::vector <std::string> Node::getLabels(){
 	return labels;
 }
 
-string Node::printNode(){
+std::string Node::printNode(){
 
-		vector <string> tempLabels = getLabels();
+		std::vector <std::string> tempLabels = getLabels();
 
-		string jsonLabels = "[";
+		std::string jsonLabels = "[";
 		// cout << "Labels:" << endl << "\t\t";
 		for (int j = 0; j < tempLabels.size(); j++){
 			// cout << "[" << j << "] : " << tempLabels[j] << ", ";
@@ -117,11 +119,11 @@ string Node::printNode(){
 		}
 		jsonLabels += "]";
 
-		string jsonProperties = "{";
+		std::string jsonProperties = "{";
 		//print the properies
-		map<string, vector<string> > tempProperties = getProperties();
+		std::map<std::string, std::vector<std::string> > tempProperties = getProperties();
 		int position = 0; //to check if we have gone over all but one.
-		 for (map<string, vector<string> >::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
+		 for (std::map<std::string, std::vector<std::string> >::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
 		 		//we now have the vector. Now loop over that....
 
 		 	jsonProperties += "\""+it->first+"\":[";
@@ -143,8 +145,8 @@ string Node::printNode(){
 			position++;
 		 }
 		 jsonProperties += "}";
-		 string jsonEdges = "[";
-		 vector <Edge*> listOfEdges = getAllEdges();
+		 std::string jsonEdges = "[";
+		 std::vector <Edge*> listOfEdges = getAllEdges();
 		 for (int j = 0; j < listOfEdges.size(); j++) {
 		 	jsonEdges += "\""+listOfEdges[j]->getId()+"\"";
 			if (j != listOfEdges.size()-1) {
@@ -153,6 +155,6 @@ string Node::printNode(){
 		 }
 		 jsonEdges += "]";
 
-     string json = "{\"name\":\"" + getId() + "\",\" group \":"+to_string(getGroup())+", \"labels\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
+     std::string json = "{\"name\":\"" + getId() + "\",\" group \":"+std::to_string(getGroup())+", \"labels\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
      return json;
 }

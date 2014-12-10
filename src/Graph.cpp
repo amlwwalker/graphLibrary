@@ -1,19 +1,20 @@
 // # 2014 Walking Software
 #include "Graph.hpp"
 
+using namespace graphDB;
 
 Graph::Graph(){
-	nodeReference = new(vector<Node*>);
-	edgeReference = new(vector<Edge*>);
+	nodeReference = new(std::vector<Node*>);
+	edgeReference = new(std::vector<Edge*>);
 }
-vector <Edge*>Graph::getEdgesOnNode(Node *n) {
+std::vector <Edge*>Graph::getEdgesOnNode(Node *n) {
 	return n->getAllEdges();
 }
 
-vector<Node*> *Graph::getNeighbouringNodes(Node *n) {
-	vector<Edge*> edges = getEdgesOnNode(n);
-	vector<Node*> *nodes;
-	nodes = new(vector<Node*>);
+std::vector<Node*> *Graph::getNeighbouringNodes(Node *n) {
+	std::vector<Edge*> edges = getEdgesOnNode(n);
+	std::vector<Node*> *nodes;
+	nodes = new(std::vector<Node*>);
 	nodes->push_back(n);
 	for(std::vector<Edge*>::iterator it = edges.begin(); it !=edges.end(); ++it){
 		//check which end n is of the edge
@@ -24,13 +25,13 @@ vector<Node*> *Graph::getNeighbouringNodes(Node *n) {
 		}
 	}
 	for(std::vector<Node*>::iterator it = nodes->begin(); it !=nodes->end(); ++it){
-		cout << "Node ID: " << (*it)->getGroup() << endl;
+		std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
 	}
 	//delete(nodes);
 	return nodes;
 }
 
-Node* Graph::findNodeWithId(string id){
+Node* Graph::findNodeWithId(std::string id){
 
 	for(std::vector<Node*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
 		if ((*it)->getId() == id){
@@ -40,7 +41,7 @@ Node* Graph::findNodeWithId(string id){
 	return NULL;
 }
 
-Edge* Graph::findEdgeWithId(string id){
+Edge* Graph::findEdgeWithId(std::string id){
 	for(std::vector<Edge*>::iterator it = edgeReference->begin(); it != edgeReference->end(); ++it) {
 	
 		if ((*it)->getId() == id){
@@ -56,8 +57,8 @@ void Graph::printNodes() {
 	}
 }
 
-string Graph::printNodeToJson(Node *n) {
-	string json = n->printNode();
+std::string Graph::printNodeToJson(Node *n) {
+	std::string json = n->printNode();
 	return json;
 }
 
@@ -67,7 +68,7 @@ It goes through the list of Edges checking for a match to the actual groul and r
 If the group is exactly 1 after the previous (new) group then continue;
 This is purely for D3. Groups are only used by D3.
 */
-void Graph::reorganise(vector<Node*> nodes) {
+void Graph::reorganise(std::vector<Node*> nodes) {
 	int count = -1;
 	for(std::vector<Node*>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
 		count++;
@@ -76,8 +77,8 @@ void Graph::reorganise(vector<Node*> nodes) {
 	}
 }
 
-string Graph::printNodesToJson(vector<Node*> nodes, int length) {
-	string json = "{ \"nodes\":[";
+std::string Graph::printNodesToJson(std::vector<Node*> nodes, int length) {
+	std::string json = "{ \"nodes\":[";
 		reorganise(nodes); //this must be called before graphing the data
 	for(std::vector<Node*>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
     	json += (*it)->printNode();
@@ -89,15 +90,15 @@ string Graph::printNodesToJson(vector<Node*> nodes, int length) {
 	json += "]}";
 	return json;
 }
-string Graph::printEverything(vector<Node*> nodes, vector<Edge*> edges, int length) {
-	string json = "";
+std::string Graph::printEverything(std::vector<Node*> nodes, std::vector<Edge*> edges, int length) {
+	std::string json = "";
 	//is it efficient to do it like this? I think it is but it's not that elegant
-	cout << "print everything" << endl;
+	std::cout << "print everything" << std::endl;
 	json += printNodesToJson(nodes, length);
 	json = json.substr(0, json.size()-1); //remove the last character as we are concatenating edges next
 	json += ",";
 	json += printEdgesToJson(edges, length).erase(0,1); //remove the first character as this is not the first thing in the json
-	cout << "finished print everything" << endl;
+	std::cout << "finished print everything" << std::endl;
 	return json;
 }
 
@@ -107,20 +108,20 @@ void Graph::printEdges() {
 	}	
 }
 
-string Graph::printEdgesToJson(vector<Edge*> edges, int length) {
-	string json = "{ \"links\":[";
+std::string Graph::printEdgesToJson(std::vector<Edge*> edges, int length) {
+	std::string json = "{ \"links\":[";
 	for(std::vector<Edge*>::iterator it = edges.begin(); it != edges.end(); ++it) {
 		json += (*it)->printEdge();
 		if (it-edges.begin() != edges.size()-1) {
 			json += ",";
 		}
-		cout << "printing edge: " << (*it)->getFrom()->getGroup() << " : " << (*it)->getTo()->getGroup() << endl;
+		std::cout << "printing edge: " << (*it)->getFrom()->getGroup() << " : " << (*it)->getTo()->getGroup() << std::endl;
 	}
 	json += "]}";
 	return json;
 }
 
-string Graph::printEdgeToJson(Edge *e) {
-	string json = e->printEdge();
+std::string Graph::printEdgeToJson(Edge *e) {
+	std::string json = e->printEdge();
 	return json;
 }

@@ -18,51 +18,52 @@
 #include <numeric>
 #include <map>
 #include "Edge.hpp"
-using namespace std;
 
-class Edge;
+namespace graphDB {
 
-class Node {
+	class Edge;
 
-public:
+	class Node {
 
-	void setId(string id){ this->id = id; }
-	string getId(){ return id;}
-	void addLabel(string labelName);
-	void addProperty(string propertyName, string propertyValue);
-	void addProperty(string propertyName, vector<string> propertyValue);
-	void addEdge (Edge *the_edge){ allEdges.push_back(the_edge); }
-	void setGroup(uint64_t group) { this->group = group;}
-	uint64_t getGroup() { return group;}
-	// void addOutgoingEdge(Edge *the_edge);
-	// void addReceivingEdge(Edge *the_edge);
+	public:
 
-	// vector <*Edge> getOutgoingEdges();
-	// vector <*Edge> getIncomingEdges();
-	vector <Edge*> getAllEdges();
-	vector <Edge*> *getEdgesWithType(string type);
+		void setId(std::string id){ this->id = id; }
+		std::string getId(){ return id;}
+		void addLabel(std::string labelName);
+		void addProperty(std::string propertyName, std::string propertyValue);
+		void addProperty(std::string propertyName, std::vector<std::string> propertyValue);
+		void addEdge (Edge *the_edge){ allEdges.push_back(the_edge); }
+		void setGroup(uint64_t group) { this->group = group;}
+		uint64_t getGroup() { return group;}
+		// void addOutgoingEdge(Edge *the_edge);
+		// void addReceivingEdge(Edge *the_edge);
 
-	// map <string, vector <*Edge> > getOutgoingMap(){ return sentEdges_map; }
-	// map <string, vector <*Edge> > getIncomingMap(){ return receivedEdges_map; }
+		// vector <*Edge> getOutgoingEdges();
+		// vector <*Edge> getIncomingEdges();
+		std::vector <Edge*> getAllEdges();
+		std::vector <Edge*> *getEdgesWithType(std::string type);
 
-	map <string, vector <string> > getProperties();
-	vector <string> getLabels();
-	vector <string> getProperty(string PropertyName){ 
-		map <string, vector <string> > all_properties = getProperties();
-		vector <string> property = all_properties[PropertyName];
-		return property;
-	}
+		// map <string, vector <*Edge> > getOutgoingMap(){ return sentEdges_map; }
+		// map <string, vector <*Edge> > getIncomingMap(){ return receivedEdges_map; }
 
-	string printNode();
+		std::map <std::string, std::vector <std::string> > getProperties();
+		std::vector <std::string> getLabels();
+		std::vector <std::string> getProperty(std::string PropertyName){ 
+			std::map <std::string, std::vector <std::string> > all_properties = getProperties();
+			std::vector <std::string> property = all_properties[PropertyName];
+			return property;
+		}
 
-	
-private:
-	string id;
-	uint64_t group;
-	vector <string> labels;
-	map <string, vector <string> > properties;
-	vector <Edge*> allEdges;
+		std::string printNode();
 
-};
+		
+	private:
+		std::string id;
+		uint64_t group;
+		std::vector <std::string> labels;
+		std::map <std::string, std::vector <std::string> > properties;
+		std::vector <Edge*> allEdges;
 
+	};
+}
 #endif

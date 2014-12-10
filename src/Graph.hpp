@@ -9,32 +9,32 @@
 #include "GraphObjects/Edge.hpp"
 
 
-using namespace std;
+namespace graphDB{
+	class Graph {
 
-class Graph {
+	public:
+		Graph();
+		std::vector <Node*> *getNodes() { return nodeReference;}
+		std::vector <Edge*> *getEdges() { return edgeReference;}
+		void addNode(Node *n){nodeReference->push_back(n);}
+		void addEdge(Edge *e){edgeReference->push_back(e);}
+		std::vector <Edge*>getEdgesOnNode(Node *n);
+		void printNodes();
+		void printEdges();
+		Node* findNodeWithId(std::string id);
+		Edge* findEdgeWithId(std::string id);
+		std::string printNodesToJson(std::vector<Node*> nodes, int length = 0);
+		std::string printNodeToJson(Node *n);
+		std::string printEdgesToJson(std::vector<Edge*> edges, int length = 0);
+		std::string printEdgeToJson(Edge *n);
+		std::string printEverything(std::vector<Node*> nodes, std::vector<Edge*> edges, int length = 0);
+		std::vector<Node*> *getNeighbouringNodes(Node *n);
+		void reorganise(std::vector<Node*> nodes);
+	private:
+		std::vector <Node*> *nodeReference;
+		std::vector <Edge*> *edgeReference;
+		//vector <int> nodesPrinted = new(vector<int>);
 
-public:
-	Graph();
-	vector <Node*> *getNodes() { return nodeReference;}
-	vector <Edge*> *getEdges() { return edgeReference;}
-	void addNode(Node *n){nodeReference->push_back(n);}
-	void addEdge(Edge *e){edgeReference->push_back(e);}
-	vector <Edge*>getEdgesOnNode(Node *n);
-	void printNodes();
-	void printEdges();
-	Node* findNodeWithId(string id);
-	Edge* findEdgeWithId(string id);
-	string printNodesToJson(vector<Node*> nodes, int length = 0);
-	string printNodeToJson(Node *n);
-	string printEdgesToJson(vector<Edge*> edges, int length = 0);
-	string printEdgeToJson(Edge *n);
-	string printEverything(vector<Node*> nodes, vector<Edge*> edges, int length = 0);
-	vector<Node*> *getNeighbouringNodes(Node *n);
-	void reorganise(vector<Node*> nodes);
-private:
-	vector <Node*> *nodeReference;
-	vector <Edge*> *edgeReference;
-	//vector <int> nodesPrinted = new(vector<int>);
-
-};
+	};
+}
 #endif

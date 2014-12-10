@@ -2,7 +2,10 @@
 
 #include "DatabaseLoader.hpp"
 #include <iomanip>      // std::setprecision
-DatabaseLoader::DatabaseLoader(string aFileName, Graph &graph) 
+
+using namespace graphDB;
+
+DatabaseLoader::DatabaseLoader(std::string aFileName, Graph &graph) 
 										: mFileName(aFileName), mGraph(graph) {
 	//constructor
 }
@@ -35,8 +38,8 @@ void DatabaseLoader::loadDatabase(){
 	
 	mGraph.addNode(tempNode);
 	
-	ostringstream timeStampString;
-	timeStampString << setprecision(15) << data[i]["TimeStamp"].GetDouble();
+	std::ostringstream timeStampString;
+	timeStampString << std::setprecision(15) << data[i]["TimeStamp"].GetDouble();
 	
 	tempNode->setId(timeStampString.str());
 
@@ -52,7 +55,7 @@ void DatabaseLoader::loadDatabase(){
 
 			majorEdge->setWeight(3);
 
-			majorEdge->setId(to_string(uniq));
+			majorEdge->setId(std::to_string(uniq));
 			mGraph.addEdge(majorEdge);
 	}
 
@@ -79,13 +82,13 @@ void DatabaseLoader::loadDatabase(){
 				tempNode->addEdge(tempBookieEdge);
 				tempBookieNode->addEdge(tempBookieEdge);
 
-				tempBookieEdge->setId(to_string(uniq));
+				tempBookieEdge->setId(std::to_string(uniq));
 				tempBookieEdge->setWeight(3);
 				mGraph.addEdge(tempBookieEdge);
 
 				for(rapidjson::Value::ConstMemberIterator innerIt=it->value.MemberBegin(); innerIt != it->value.MemberEnd(); innerIt++) {
 					
-					string name = innerIt->name.GetString();
+					std::string name = innerIt->name.GetString();
 					double value = innerIt->value.GetDouble();
 
 					uniq++;
@@ -99,7 +102,7 @@ void DatabaseLoader::loadDatabase(){
 					
 					tempOddNode->setId(name);
 					tempOddNode->addProperty("parent", tempBookieNode->getId());
-					tempOddNode->addProperty("price", to_string(value));
+					tempOddNode->addProperty("price", std::to_string(value));
 					Edge *tempOddEdge;
 					tempOddEdge = new(Edge);
 					tempOddEdge->setTo(tempBookieNode);
@@ -108,7 +111,7 @@ void DatabaseLoader::loadDatabase(){
 					tempBookieNode->addEdge(tempOddEdge);
 					tempOddNode->addEdge(tempOddEdge);
 
-					tempOddEdge->setId(to_string(uniq)); //random name
+					tempOddEdge->setId(std::to_string(uniq)); //random name
 
 					tempOddEdge->setWeight(3);
 					mGraph.addEdge(tempOddEdge);	
