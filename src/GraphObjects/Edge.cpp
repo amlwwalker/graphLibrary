@@ -10,6 +10,15 @@ void Edge::setUpEdge(std::string aId, Node* aFromNode, Node *aToNode) {
 		toNode = aToNode;
 }
 
+// template <typename T> 
+// string convertToString(T val){
+// 	stringstream convert;
+// 	convert << val;
+// 	string result;
+// 	result = convert.str();
+// 	return result;
+// }
+
 std::string Edge::printEdge() {
 			//print out its types
 		std::string jsonTypes = "[";

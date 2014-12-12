@@ -11,6 +11,14 @@ std::vector <Edge*>Graph::getEdgesOnNode(Node *n) {
 	return n->getAllEdges();
 }
 
+std::vector <Edge*>Graph::getOutgoingEdgesOnNode(Node *n) {
+	return n->getAllOutgoingEdges();
+}
+
+std::vector <Edge*>Graph::getIncomingEdgesOnNode(Node *n) {
+	return n->getAllIncomingEdges();
+}
+
 void Graph::getNeighbouringNodes(Node *n, std::vector<Node*> &nodes) {
 	std::vector<Edge*> edges = getEdgesOnNode(n);
 	
@@ -29,10 +37,57 @@ void Graph::getNeighbouringNodes(Node *n, std::vector<Node*> &nodes) {
 	//delete(nodes);
 }
 
+void Graph::getNodesFromNode(Node *n, std::vector<Node*> &nodes) {
+	std::vector<Edge*> edges = getOutgoingEdgesOnNode(n);
+	
+	nodes.push_back(n);
+	for(std::vector<Edge*>::iterator it = edges.begin(); it !=edges.end(); ++it){
+		//check which end n is of the edge
+		if ((*it)->getFrom() != n) {
+			nodes.push_back((*it)->getFrom());
+		} else {
+			nodes.push_back((*it)->getTo());
+		}
+	}
+	for(std::vector<Node*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
+		std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
+	}
+	//delete(nodes);
+}
+
+void Graph::getNodesToNode(Node *n, std::vector<Node*> &nodes) {
+	std::vector<Edge*> edges = getIncomingEdgesOnNode(n);
+	
+	nodes.push_back(n);
+	for(std::vector<Edge*>::iterator it = edges.begin(); it !=edges.end(); ++it){
+		//check which end n is of the edge
+		if ((*it)->getFrom() != n) {
+			nodes.push_back((*it)->getFrom());
+		} else {
+			nodes.push_back((*it)->getTo());
+		}
+	}
+	for(std::vector<Node*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
+		std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
+	}
+	//delete(nodes);
+}
+
+
 Node* Graph::findNodeWithId(std::string id){
 
 	for(std::vector<Node*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
 		if ((*it)->getId() == id){
+			return (*it);
+		}
+	}
+	return NULL;
+}
+
+Node* Graph::findNodeWithName(std::string name){
+
+	for(std::vector<Node*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
+		if ((*it)->getName() == name){
 			return (*it);
 		}
 	}

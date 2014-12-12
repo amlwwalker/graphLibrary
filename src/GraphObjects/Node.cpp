@@ -33,6 +33,14 @@ std::vector <Edge*> Node::getAllEdges(){
 	return allEdges;
 }
 
+std::vector <Edge*> Node::getAllOutgoingEdges(){
+	return allOutgoingEdges;
+}
+
+std::vector <Edge*> Node::getAllIncomingEdges(){
+	return allIncomingEdges;
+}
+
 std::vector <Edge*> *Node::getEdgesWithType(std::string type) {
 
 	std::vector <Edge*> *tempList;

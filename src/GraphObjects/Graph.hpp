@@ -14,22 +14,70 @@ namespace graphDB{
 
 	public:
 		Graph();
+		/// Returns a vector of pointers to all the nodes in the graph
 		std::vector <Node*> *getNodes() { return nodeReference;}
+
+		/// Returns a vector of pointers to all the edges in the graph
 		std::vector <Edge*> *getEdges() { return edgeReference;}
+
+		/// Adds a node to the graph
 		void addNode(Node *n){nodeReference->push_back(n);}
+
+		/// Adds an edge to the graph
 		void addEdge(Edge *e){edgeReference->push_back(e);}
+
+		/// Returns a vector with pointers to all the edges associated with this node
 		std::vector <Edge*>getEdgesOnNode(Node *n);
+
+		
+		/// Returns a vector with pointers to all the edges leaving this node
+		std::vector <Edge*>getOutgoingEdgesOnNode(Node *n);
+
+		/// Returns a vector with pointers to all the edges coming into this node
+		std::vector <Edge*>getIncomingEdgesOnNode(Node *n);
+
+		/// prints info on each node in json format
 		void printNodes();
+
+		/// prints info on each edge in json format	
 		void printEdges();
+
+		/// Return pointer to the node with a certain id
 		Node* findNodeWithId(std::string id);
+
+		/// Return pointer to the edge with a certain id
 		Edge* findEdgeWithId(std::string id);
+
+		/// Return pointer to the node with a certain name (remember names are assumed unique);
+		Node* findNodeWithName(std::string id);
+
+		/// creates json with node info for d3
 		std::string printNodesToJson(std::vector<Node*> nodes, int length = 0);
+
+		/// creates json with single node info for d3
 		std::string printNodeToJson(Node *n);
+
+		/// creates json with edges info for d3
 		std::string printEdgesToJson(std::vector<Edge*> edges, int length = 0);
+
+		/// creates json with single edge info for d3
 		std::string printEdgeToJson(Edge *n);
+
+		/// creates json with all info
 		std::string printEverything(std::vector<Node*> nodes, std::vector<Edge*> edges, int length = 0);
+
+		/// Returns vector with pointers to all nodes associated with 
 		void getNeighbouringNodes(Node *n, std::vector<Node*> &nodes);
+
+		/// Returns vector with pointers to all nodes to which current node has outgoing edges 
+		void getNodesFromNode(Node *n, std::vector<Node*> &nodes);
+
+		/// Returns vector with pointers to all nodes from which we can get to current code via incoming edges 
+		void getNodesToNode(Node *n, std::vector<Node*> &nodes);
+
+		/// a d3-related function that deals with the 'group' parameter
 		void reorganise(std::vector<Node*> nodes);
+
 	private:
 		std::vector <Node*> *nodeReference;
 		std::vector <Edge*> *edgeReference;
