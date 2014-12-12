@@ -11,24 +11,22 @@ std::vector <Edge*>Graph::getEdgesOnNode(Node *n) {
 	return n->getAllEdges();
 }
 
-std::vector<Node*> *Graph::getNeighbouringNodes(Node *n) {
+void Graph::getNeighbouringNodes(Node *n, std::vector<Node*> &nodes) {
 	std::vector<Edge*> edges = getEdgesOnNode(n);
-	std::vector<Node*> *nodes;
-	nodes = new(std::vector<Node*>);
-	nodes->push_back(n);
+	
+	nodes.push_back(n);
 	for(std::vector<Edge*>::iterator it = edges.begin(); it !=edges.end(); ++it){
 		//check which end n is of the edge
 		if ((*it)->getFrom() != n) {
-			nodes->push_back((*it)->getFrom());
+			nodes.push_back((*it)->getFrom());
 		} else {
-			nodes->push_back((*it)->getTo());
+			nodes.push_back((*it)->getTo());
 		}
 	}
-	for(std::vector<Node*>::iterator it = nodes->begin(); it !=nodes->end(); ++it){
+	for(std::vector<Node*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
 		std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
 	}
 	//delete(nodes);
-	return nodes;
 }
 
 Node* Graph::findNodeWithId(std::string id){

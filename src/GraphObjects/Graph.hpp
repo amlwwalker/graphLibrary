@@ -5,8 +5,8 @@
 #include <vector>
 #include <map>
 #include <string.h>
-#include "GraphObjects/Node.hpp"
-#include "GraphObjects/Edge.hpp"
+#include "Node.hpp"
+#include "Edge.hpp"
 
 
 namespace graphDB{
@@ -28,7 +28,7 @@ namespace graphDB{
 		std::string printEdgesToJson(std::vector<Edge*> edges, int length = 0);
 		std::string printEdgeToJson(Edge *n);
 		std::string printEverything(std::vector<Node*> nodes, std::vector<Edge*> edges, int length = 0);
-		std::vector<Node*> *getNeighbouringNodes(Node *n);
+		void getNeighbouringNodes(Node *n, std::vector<Node*> &nodes);
 		void reorganise(std::vector<Node*> nodes);
 	private:
 		std::vector <Node*> *nodeReference;
