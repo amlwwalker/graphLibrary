@@ -3,19 +3,20 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
-#include "../src/GraphObjects/Node.hpp"
-#include "../src/GraphObjects/Edge.hpp"
-#include "../src/GraphObjects/Graph.hpp"
-#include "../src/rapidjson/document.h"		// rapidjson's DOM-style API
-#include "../src/rapidjson/prettywriter.h"	// for stringify JSON
-#include "../src/rapidjson/filestream.h"	// wrapper of C stream for prettywriter as output
+#include "../graphLibrary/src/GraphObjects/Node.hpp"
+#include "../graphLibrary/src/GraphObjects/Edge.hpp"
+#include "../graphLibrary/src/GraphObjects/Graph.hpp"
+#include "../rapidjson/include/document.h"		// rapidjson's DOM-style API
+#include "../rapidjson/include/prettywriter.h"	// for stringify JSON
+#include "../rapidjson/include/filestream.h"	// wrapper of C stream for prettywriter as output
+
 namespace graphDB {
 
-	class SampleDataLoader {
+	class DatabaseLoader {
 
 	public:
-		SampleDataLoader(std::string filename, Graph &graph);
-		~SampleDataLoader();
+		DatabaseLoader(std::string filename, Graph &graph);
+		~DatabaseLoader();
 		void loadDatabase();
 	private:
 		std::string mFileName;
