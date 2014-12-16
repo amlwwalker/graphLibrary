@@ -14,14 +14,17 @@ namespace graphDB{
 
 	public:
 		Graph();
-		/// Returns a vector of pointers to all the nodes in the graph
+		/// Returns a pointer to a vector of pointers to all the nodes in the graph
 		std::vector <Node*> *getNodes() { return nodeReference;}
 
-		/// Returns a vector of pointers to all the edges in the graph
+		/// Returns a pointer to a vector of pointers to all the edges in the graph
 		std::vector <Edge*> *getEdges() { return edgeReference;}
 
 		/// Adds a node to the graph
 		void addNode(Node *n){nodeReference->push_back(n);}
+
+		/// Adds many nodes to the graph
+		void addNodes(std::vector <Node*> *Nodes);
 
 		/// Adds an edge to the graph
 		void addEdge(Edge *e){edgeReference->push_back(e);}
@@ -49,7 +52,7 @@ namespace graphDB{
 		Edge* findEdgeWithId(std::string id);
 
 		/// Return pointer to the node with a certain name (remember names are assumed unique);
-		Node* findNodeWithName(std::string id);
+		Node* findNodeWithName(std::string name);
 
 		/// creates json with node info for d3
 		std::string printNodesToJson(std::vector<Node*> nodes, int length = 0);
@@ -66,8 +69,11 @@ namespace graphDB{
 		/// creates json with all info
 		std::string printEverything(std::vector<Node*> nodes, std::vector<Edge*> edges, int length = 0);
 
-		/// Returns vector with pointers to all nodes associated with 
+		/// Returns vector with pointers to all nodes associated with the node;
 		void getNeighbouringNodes(Node *n, std::vector<Node*> &nodes);
+
+		/// Returns vector with pointers to all nodes associated with the node, as well as the type of node that this happens with
+		void getFullNeighbouringNodes(Node *n, std::vector<Node*> &nodes, std::vector <Edge*> &joined_by);
 
 		/// Returns vector with pointers to all nodes to which current node has outgoing edges 
 		void getNodesFromNode(Node *n, std::vector<Node*> &nodes);
@@ -77,6 +83,22 @@ namespace graphDB{
 
 		/// a d3-related function that deals with the 'group' parameter
 		void reorganise(std::vector<Node*> nodes);
+
+		// function for us
+
+		/// Get vector with pointers to all Nodes that have a certain property value
+		std::vector <Node*> findNodesWithProperty(std::string key, std::string value);
+
+		/// count the names of nodes //SOS add by reference -- the c++11 fails in compilation
+		void printNodeNames(std::vector <Node*> Nodes);
+
+		// Node * copyNodeForUser(Node *fromNode) {
+
+		// 	Node *copyNode;
+		// 	copyNode = new(Node);
+		// 	copyNode->setName( fromNode->getName() );
+		// 	copyNode->setCopyPointer( fromNode ); 
+		// }
 
 	private:
 		std::vector <Node*> *nodeReference;

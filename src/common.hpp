@@ -6,3 +6,4 @@
 #include "GraphObjects/Graph.hpp"
 #include "../../webserver/mongoose.h"
 
+void printToConsole();

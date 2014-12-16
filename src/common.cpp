@@ -8,3 +8,7 @@
 // 	}
 // 	std::cout << std::endl;
 // }
+
+void printToConsole(){
+	std::cout<<"This is a test"<<endl;
+}

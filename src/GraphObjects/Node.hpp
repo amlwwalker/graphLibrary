@@ -44,11 +44,17 @@ namespace graphDB {
 		
 		/// Adds a property and its value to a map; the key is the property name
 		void addProperty(std::string propertyName, std::string propertyValue);
+
+		/// Changes the (single) value of a property; the key is the property name
+		void changeProperty(std::string propertyName, std::string propertyValue);
 		
 		/** Adds a property and its values to a map; the key is the property name. The difference between
 		this and the previous function is that it take a vector as the parameter for the values.
 		*/
 		void addProperty(std::string propertyName, std::vector<std::string> propertyValue);
+
+		/// Changes the (vector) value of a property;
+		void changeProperty(std::string propertyName, std::vector<std::string> propertyValue);
 
 		/** Adds the pointer to an Edge to the vector of all edges associated with this node. */
 		void addEdge (Edge *the_edge){ allEdges.push_back(the_edge); }
@@ -87,6 +93,7 @@ namespace graphDB {
 		// map <string, vector <*Edge> > getOutgoingMap(){ return sentEdges_map; }
 		// map <string, vector <*Edge> > getIncomingMap(){ return receivedEdges_map; }
 
+		// returns the all the properties for a node. Need to change this to a pointer!!!
 		std::map <std::string, std::vector <std::string> > getProperties();
 		std::vector <std::string> getLabels();
 		std::vector <std::string> getProperty(std::string PropertyName){ 
@@ -99,12 +106,15 @@ namespace graphDB {
 		std::string printNode();
 		//void addProperty(std::string propertyName, std::vector <std::string> propertyValue);
 
-		// function for us
+		void setRefNode(Node *refnode){ this->refnode = refnode; }
+		Node * getRefNode(){ return refnode; }
+
 
 		
 	private:
 		std::string id;
 		std::string name;
+		Node *refnode;
 		int group; //uint64_t
 		std::vector <std::string> labels;
 		std::map <std::string, std::vector <std::string> > properties;

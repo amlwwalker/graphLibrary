@@ -7,6 +7,9 @@ Graph::Graph(){
 	nodeReference = new(std::vector<Node*>);
 	edgeReference = new(std::vector<Edge*>);
 }
+
+
+
 std::vector <Edge*>Graph::getEdgesOnNode(Node *n) {
 	return n->getAllEdges();
 }
@@ -31,9 +34,30 @@ void Graph::getNeighbouringNodes(Node *n, std::vector<Node*> &nodes) {
 			nodes.push_back((*it)->getTo());
 		}
 	}
-	for(std::vector<Node*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
-		std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
+	// for(std::vector<Node*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
+	// 	std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
+	// }
+	//delete(nodes);
+}
+
+void Graph::getFullNeighbouringNodes(Node *n, std::vector<Node*> &nodes, std::vector <Edge*> &joined_by) {
+	std::vector<Edge*> edges = getEdgesOnNode(n);
+	
+	nodes.push_back(n);
+	for(std::vector<Edge*>::iterator it = edges.begin(); it !=edges.end(); ++it){
+		//check which end n is of the edge
+		if ((*it)->getFrom() != n) {
+			nodes.push_back((*it)->getFrom());
+			joined_by.push_back(*it);
+		} else {
+			nodes.push_back((*it)->getTo());
+			// joined_by.push_back((*it)->getType());
+			joined_by.push_back(*it);
+		}
 	}
+	// for(std::vector<Node*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
+	// 	std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
+	// }
 	//delete(nodes);
 }
 
@@ -94,6 +118,14 @@ Node* Graph::findNodeWithName(std::string name){
 	return NULL;
 }
 
+void Graph::addNodes(std::vector <Node*> *Nodes){
+	// int oldsize = *nodeReference.size();
+	int oldsize = nodeReference->size();
+	nodeReference -> resize(oldsize + Nodes->size());
+	copy(Nodes->begin(), Nodes->end(),nodeReference->begin()+oldsize);
+}
+
+
 Edge* Graph::findEdgeWithId(std::string id){
 	for(std::vector<Edge*>::iterator it = edgeReference->begin(); it != edgeReference->end(); ++it) {
 	
@@ -106,7 +138,8 @@ Edge* Graph::findEdgeWithId(std::string id){
 
 void Graph::printNodes() {
 	for(std::vector<Node*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
-		(*it)->printNode();
+		std::string tmpjson = (*it)->printNode();
+		std::cout << tmpjson<< std::endl;
 	}
 }
 
@@ -130,6 +163,7 @@ void Graph::reorganise(std::vector<Node*> nodes) {
 	}
 }
 
+//Print nodes to json. I'm not sure why we need the length parameter **
 std::string Graph::printNodesToJson(std::vector<Node*> nodes, int length) {
 	std::string json = "{ \"nodes\":[";
 		reorganise(nodes); //this must be called before graphing the data
@@ -143,6 +177,9 @@ std::string Graph::printNodesToJson(std::vector<Node*> nodes, int length) {
 	json += "]}";
 	return json;
 }
+
+//Print everything to json. I'm not sure why we need the length parameter **
+
 std::string Graph::printEverything(std::vector<Node*> nodes, std::vector<Edge*> edges, int length) {
 	std::string json = "";
 	//is it efficient to do it like this? I think it is but it's not that elegant
@@ -177,4 +214,36 @@ std::string Graph::printEdgesToJson(std::vector<Edge*> edges, int length) {
 std::string Graph::printEdgeToJson(Edge *e) {
 	std::string json = e->printEdge();
 	return json;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+std::vector <Node*> Graph::findNodesWithProperty(std::string key, std::string value){
+
+	std::vector <Node*> OutputNodes;
+
+	// std::string * p;
+	std::map <std::string, std::vector <std::string> > NodeProperties;
+
+	for(std::vector<Node*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
+
+		NodeProperties = (*it)->getProperties();
+		// p = find(NodeProperties[key].begin(), NodeProperties[key].end(), value);
+		if (find(NodeProperties[key].begin(), NodeProperties[key].end(), value) != NodeProperties[key].end()){
+			// return (*it);
+			OutputNodes.push_back(*it);
+		}
+	}
+	return OutputNodes;
+}
+
+
+void printNodeNames(std::vector <Node*> Nodes){
+	for (int i=0; i<Nodes.size(); i++){
+	// for(std::vector<Node*>::iterator it = Nodes.begin(); it != Nodes.end(); ++it) {
+		std::cout<<Nodes[i]->getName()<<std::endl;
+	}
 }

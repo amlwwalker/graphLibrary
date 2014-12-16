@@ -12,13 +12,26 @@ void Node::addLabel(std::string labelName){
 void Node::addProperty(std::string propertyName, std::string propertyValue){
 	properties[propertyName].push_back( propertyValue );
 }
+
+void Node::changeProperty(std::string propertyName, std::string propertyValue){
+	properties[propertyName][0] = propertyValue;
+}
+
 //function to add array as a property to nodes
 void Node::addProperty(std::string propertyName, std::vector<std::string> propertyValue){
 	for (int i = 0; i < propertyValue.size(); i++) {
 		properties[propertyName].push_back( propertyValue[i] );	
 	}
+}
+
+void Node::changeProperty(std::string propertyName, std::vector<std::string> propertyValue){
+	properties[propertyName].clear();
+	for (int i = 0; i < propertyValue.size(); i++) {
+		properties[propertyName].push_back( propertyValue[i] );	
+	}
 	
 }
+
 // //whenever an edge is created between two nodes, those nodes need to know about it
 
 // vector <*Edge> Node::getOutgoingEdges(){
@@ -163,6 +176,8 @@ std::string Node::printNode(){
 		 }
 		 jsonEdges += "]";
 
-     std::string json = "{\"name\":\"" + getId() + "\",\" group \":"+std::to_string(getGroup())+", \"labels\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
+     std::string json = "{\"name\":\"" + getName() + "\",\" group \":"+std::to_string(getGroup())+", \"labels\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
      return json;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -61,7 +61,8 @@ namespace graphDB {
 
 		// Adds a property to an edge
 		void addProperty(std::string propertyName, std::string propertyValue) { properties[propertyName].push_back( propertyValue ); }
-		std::string getType(std::string type) {return type;}
+		
+		std::string getType() {return type;}
 
 		std::vector<std::string> getTypes() { return types; }
 
