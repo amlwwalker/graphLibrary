@@ -39,7 +39,7 @@ void Graph::getNeighbouringNodes(Node *n, std::vector<Node*> &nodes) {
 	// }
 	//delete(nodes);
 }
-
+//There is a bug - need to change this to a map!
 void Graph::getFullNeighbouringNodes(Node *n, std::vector<Node*> &nodes, std::vector <Edge*> &joined_by) {
 	std::vector<Edge*> edges = getEdgesOnNode(n);
 	

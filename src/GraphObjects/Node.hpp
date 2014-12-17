@@ -28,7 +28,7 @@ namespace graphDB {
 	public:
 
 		/// Sets the (automatically generated) id for a node. The id is unique.
-		void setId(std::string id){ this->id = id; }
+		void setId(std::string id) : id(id){}
 		
 		/// Sets the name for a node. This is either read from file or defined in code. The name is unique.
 		void setName(std::string name){ this->name = name; }

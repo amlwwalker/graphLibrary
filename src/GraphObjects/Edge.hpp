@@ -48,7 +48,7 @@ namespace graphDB {
 		}
 		
 		// Sets the edge type
-		void setType(std::string type) {type = type;}
+		void setType(std::string type) {this->type = type;}
 
 		// Sets the edge weight
 		void setWeight(int weight) { this->weight = weight; }

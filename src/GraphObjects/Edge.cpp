@@ -21,15 +21,8 @@ void Edge::setUpEdge(std::string aId, Node* aFromNode, Node *aToNode) {
 
 std::string Edge::printEdge() {
 			//print out its types
-		std::string jsonTypes = "[";
-		std::vector <std::string> tempTypes = getTypes();
-		for (int j = 0; j < tempTypes.size(); j++){
-			jsonTypes += "\""+tempTypes[j]+"\"";
-			if (j != tempTypes.size()-1) {
-				jsonTypes += ",";
-			}
-		}
-		jsonTypes += "]";
+		std::string jsonTypes = getType();
+		
 		std::string jsonProperties = "{";
 		std::map<std::string, std::vector<std::string> > tempProperties = getProperties();
 		int position = 0; //to check if we have gone over all but one.
