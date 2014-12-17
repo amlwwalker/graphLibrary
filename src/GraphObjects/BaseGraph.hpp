@@ -16,8 +16,8 @@ namespace graphDB{
 		BaseGraph();
 		std::vector <BaseNode*> *getNodes() { return nodeReference;}
 		std::vector <BaseEdge*> *getEdges() { return edgeReference;}
-		void addNode(BaseNode *n){nodeReference->push_back(n);}
-		void addEdge(BaseEdge *e){edgeReference->push_back(e);}
+		BaseNode *addNode(){BaseNode *n; n = new BaseNode("1"); nodeReference->push_back(n); return n;}
+		BaseEdge *addEdge(){BaseEdge *e; e = new BaseEdge("1"); edgeReference->push_back(e); return e;}
 		std::vector <BaseEdge*>getEdgesOnNode(BaseNode *n);
 		void printNodes();
 		void printEdges();

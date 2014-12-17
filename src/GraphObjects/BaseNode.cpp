@@ -3,6 +3,9 @@
 
 using namespace graphDB;
 
+BaseNode::BaseNode(std::string id){
+	this->id = id;
+}
 //a node can have a label and this is added with the function addLabel
 void BaseNode::addLabel(std::string labelName){
 	labels.push_back(labelName);

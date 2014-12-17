@@ -3,9 +3,12 @@
 
 using namespace graphDB;
 
-void BaseEdge::setUpEdge(std::string aId, BaseNode* aFromNode, BaseNode *aToNode) {
+BaseEdge::BaseEdge(std::string id){
+	this->id = id;
+} 
+void BaseEdge::setUpEdge(std::string aName, BaseNode* aFromNode, BaseNode *aToNode) {
 
-		id = aId;
+		aName = name;
 		fromNode = aFromNode;
 		toNode = aToNode;
 }

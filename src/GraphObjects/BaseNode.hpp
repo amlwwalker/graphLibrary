@@ -24,12 +24,13 @@ namespace graphDB {
 	class BaseEdge;
 
 	class BaseNode {
+		friend class BaseGraph;
 		friend class BaseEdge;
 
 	public:
-		// BaseNode();
-		void setId(std::string id){ this->id = id; }
 		std::string getId(){ return id;}
+		void setName(std::string name){ this->name = name;}
+		std::string getName(){ return name;}
 		void addLabel(std::string labelName);
 		void addProperty(std::string propertyName, std::string propertyValue);
 		void addProperty(std::string propertyName, std::vector<std::string> propertyValue);
@@ -58,9 +59,10 @@ namespace graphDB {
 
 		
 	private:
-		
+		BaseNode(std::string id);
 		void addEdge (BaseEdge *edge){ edges.push_back(edge); }
 		std::string id;
+		std::string name;
 		int group;
 		std::vector <std::string> labels;
 		std::map <std::string, std::vector <std::string> > properties;
