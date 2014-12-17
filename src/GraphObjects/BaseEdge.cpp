@@ -58,6 +58,6 @@ std::string BaseEdge::printEdge() {
 		 std::string jsonFrom = std::to_string(getFrom()->getGroup());
 		 std::string jsonTo = std::to_string(getTo()->getGroup());
 		 
-		 std::string json = "{\"id\": \""+getId()+"\", \"type\":"+jsonTypes+", \"properties\":"+ jsonProperties+", \"source\":"+jsonFrom+",\"target\":"+jsonTo+", \"value\":"+std::to_string(getWeight())+"}";
+		 std::string json = "{\"id\": \""+getName()+"\", \"id\":\""+getId()+"\", \"type\":"+jsonTypes+", \"properties\":"+ jsonProperties+", \"source\":"+jsonFrom+",\"target\":"+jsonTo+", \"value\":"+std::to_string(getWeight())+"}";
     return json;
 }

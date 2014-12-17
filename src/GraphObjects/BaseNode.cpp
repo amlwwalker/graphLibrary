@@ -158,6 +158,6 @@ std::string BaseNode::printNode(){
 		 }
 		 jsonEdges += "]";
 
-     std::string json = "{\"name\":\"" + getId() + "\",\" group \":"+std::to_string(getGroup())+", \"labels\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
+     std::string json = "{\"name\":\"" + getName() + "\",\" id \":\""+getId()+"\",\" group \":"+std::to_string(getGroup())+", \"labels\": "+ jsonLabels + ", \"properties\":" + jsonProperties + ", \"edges\":" + jsonEdges +"}";
      return json;
 }

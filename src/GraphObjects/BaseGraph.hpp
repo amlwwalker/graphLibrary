@@ -16,8 +16,8 @@ namespace graphDB{
 		BaseGraph();
 		std::vector <BaseNode*> *getNodes() { return nodeReference;}
 		std::vector <BaseEdge*> *getEdges() { return edgeReference;}
-		BaseNode *addNode(){BaseNode *n; n = new BaseNode("1"); nodeReference->push_back(n); return n;}
-		BaseEdge *addEdge(){BaseEdge *e; e = new BaseEdge("1"); edgeReference->push_back(e); return e;}
+		BaseNode *addNode(){BaseNode *n; n = new BaseNode(std::to_string(nodeCounter++)); nodeReference->push_back(n); return n;}
+		BaseEdge *addEdge(){BaseEdge *e; e = new BaseEdge(std::to_string(edgeCounter++)); edgeReference->push_back(e); return e;}
 		std::vector <BaseEdge*>getEdgesOnNode(BaseNode *n);
 		void printNodes();
 		void printEdges();
@@ -31,6 +31,8 @@ namespace graphDB{
 		void getNeighbouringNodes(BaseNode *n, std::vector<BaseNode*> &nodes);
 		void reorganise(std::vector<BaseNode*> nodes);
 	private:
+		int nodeCounter = 0;
+		int edgeCounter = 0;
 		std::vector <BaseNode*> *nodeReference;
 		std::vector <BaseEdge*> *edgeReference;
 		//vector <int> nodesPrinted = new(vector<int>);
