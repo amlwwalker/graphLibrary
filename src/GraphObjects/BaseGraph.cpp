@@ -23,9 +23,6 @@ void BaseGraph::getNeighbouringNodes(BaseNode *n, std::vector<BaseNode*> &nodes)
 			nodes.push_back((*it)->getTo());
 		}
 	}
-	for(std::vector<BaseNode*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
-		std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
-	}
 	//delete(nodes);
 }
 
@@ -91,12 +88,10 @@ std::string BaseGraph::printNodesToJson(std::vector<BaseNode*> nodes, int length
 std::string BaseGraph::printEverything(std::vector<BaseNode*> nodes, std::vector<BaseEdge*> edges, int length) {
 	std::string json = "";
 	//is it efficient to do it like this? I think it is but it's not that elegant
-	std::cout << "print everything" << std::endl;
 	json += printNodesToJson(nodes, length);
 	json = json.substr(0, json.size()-1); //remove the last character as we are concatenating edges next
 	json += ",";
 	json += printEdgesToJson(edges, length).erase(0,1); //remove the first character as this is not the first thing in the json
-	std::cout << "finished print everything" << std::endl;
 	return json;
 }
 
@@ -113,7 +108,6 @@ std::string BaseGraph::printEdgesToJson(std::vector<BaseEdge*> edges, int length
 		if (it-edges.begin() != edges.size()-1) {
 			json += ",";
 		}
-		std::cout << "printing edge: " << (*it)->getFrom()->getGroup() << " : " << (*it)->getTo()->getGroup() << std::endl;
 	}
 	json += "]}";
 	return json;

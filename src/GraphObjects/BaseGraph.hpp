@@ -10,6 +10,7 @@
 
 
 namespace graphDB{
+
 	class BaseGraph {
 
 	public:

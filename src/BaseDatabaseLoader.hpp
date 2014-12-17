@@ -14,13 +14,13 @@ namespace graphDB {
 	class BaseDatabaseLoader {
 
 		public:
-			BaseDatabaseLoader(std::string aFileName, BaseGraph &graph);
+			BaseDatabaseLoader(std::string aFileName, std::string graph);
 			// ~BaseDatabaseLoader();
 			void loadDatabase();
 		protected:
-			
+
 			std::string mFileName;
-			BaseGraph &mGraph;
+			std::string mGraph;
 	};
 }
 

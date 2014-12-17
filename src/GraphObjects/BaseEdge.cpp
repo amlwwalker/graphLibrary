@@ -12,6 +12,12 @@ void BaseEdge::setUpEdge(std::string aName, BaseNode* aFromNode, BaseNode *aToNo
 		setFrom(aFromNode);
 		setTo(aToNode);
 }
+void BaseEdge::setUpEdge(BaseNode* aFromNode, BaseNode *aToNode, std::string aType) {
+
+		type.push_back(aType);
+		setFrom(aFromNode);
+		setTo(aToNode);
+}
 
 void BaseEdge::setFrom(BaseNode *node) {
 	fromNode= node;

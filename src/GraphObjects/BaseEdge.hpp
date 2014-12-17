@@ -16,6 +16,8 @@ namespace graphDB {
 	public:
 		///Sets the from node, to node and name of an Edge
 		void setUpEdge(std::string aName, BaseNode* aFromNode, BaseNode *aToNode);
+		///Sets the from node, to node and the type of the Edge
+		void setUpEdge(BaseNode* aFromNode, BaseNode *aToNode, std::string aType);
 
 		///prints the Edge out - for debugging
 		std::string printEdge();
