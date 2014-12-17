@@ -1,21 +1,21 @@
 // # 2014 Walking Software
-#include "Graph.hpp"
+#include "BaseGraph.hpp"
 
 using namespace graphDB;
 
-Graph::Graph(){
-	nodeReference = new(std::vector<Node*>);
-	edgeReference = new(std::vector<Edge*>);
+BaseGraph::BaseGraph(){
+	nodeReference = new(std::vector<BaseNode*>);
+	edgeReference = new(std::vector<BaseEdge*>);
 }
-std::vector <Edge*>Graph::getEdgesOnNode(Node *n) {
+std::vector <BaseEdge*>BaseGraph::getEdgesOnNode(BaseNode *n) {
 	return n->getAllEdges();
 }
 
-void Graph::getNeighbouringNodes(Node *n, std::vector<Node*> &nodes) {
-	std::vector<Edge*> edges = getEdgesOnNode(n);
+void BaseGraph::getNeighbouringNodes(BaseNode *n, std::vector<BaseNode*> &nodes) {
+	std::vector<BaseEdge*> edges = getEdgesOnNode(n);
 	
 	nodes.push_back(n);
-	for(std::vector<Edge*>::iterator it = edges.begin(); it !=edges.end(); ++it){
+	for(std::vector<BaseEdge*>::iterator it = edges.begin(); it !=edges.end(); ++it){
 		//check which end n is of the edge
 		if ((*it)->getFrom() != n) {
 			nodes.push_back((*it)->getFrom());
@@ -23,15 +23,15 @@ void Graph::getNeighbouringNodes(Node *n, std::vector<Node*> &nodes) {
 			nodes.push_back((*it)->getTo());
 		}
 	}
-	for(std::vector<Node*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
+	for(std::vector<BaseNode*>::iterator it = nodes.begin(); it !=nodes.end(); ++it){
 		std::cout << "Node ID: " << (*it)->getGroup() << std::endl;
 	}
 	//delete(nodes);
 }
 
-Node* Graph::findNodeWithId(std::string id){
+BaseNode* BaseGraph::findNodeWithId(std::string id){
 
-	for(std::vector<Node*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
+	for(std::vector<BaseNode*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
 		if ((*it)->getId() == id){
 			return (*it);
 		}
@@ -39,8 +39,8 @@ Node* Graph::findNodeWithId(std::string id){
 	return NULL;
 }
 
-Edge* Graph::findEdgeWithId(std::string id){
-	for(std::vector<Edge*>::iterator it = edgeReference->begin(); it != edgeReference->end(); ++it) {
+BaseEdge* BaseGraph::findEdgeWithId(std::string id){
+	for(std::vector<BaseEdge*>::iterator it = edgeReference->begin(); it != edgeReference->end(); ++it) {
 	
 		if ((*it)->getId() == id){
 			return (*it);
@@ -49,13 +49,13 @@ Edge* Graph::findEdgeWithId(std::string id){
 	return NULL;
 }
 
-void Graph::printNodes() {
-	for(std::vector<Node*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
+void BaseGraph::printNodes() {
+	for(std::vector<BaseNode*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
 		(*it)->printNode();
 	}
 }
 
-std::string Graph::printNodeToJson(Node *n) {
+std::string BaseGraph::printNodeToJson(BaseNode *n) {
 	std::string json = n->printNode();
 	return json;
 }
@@ -66,19 +66,19 @@ It goes through the list of Edges checking for a match to the actual groul and r
 If the group is exactly 1 after the previous (new) group then continue;
 This is purely for D3. Groups are only used by D3.
 */
-void Graph::reorganise(std::vector<Node*> nodes) {
+void BaseGraph::reorganise(std::vector<BaseNode*> nodes) {
 	int count = -1;
-	for(std::vector<Node*>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
+	for(std::vector<BaseNode*>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
 		count++;
 		(*it)->setGroup(count);
 		
 	}
 }
 
-std::string Graph::printNodesToJson(std::vector<Node*> nodes, int length) {
+std::string BaseGraph::printNodesToJson(std::vector<BaseNode*> nodes, int length) {
 	std::string json = "{ \"nodes\":[";
 		reorganise(nodes); //this must be called before graphing the data
-	for(std::vector<Node*>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
+	for(std::vector<BaseNode*>::iterator it = nodes.begin(); it != nodes.end(); ++it) {
     	json += (*it)->printNode();
 
 		if (it-nodes.begin() != nodes.size()-1) {
@@ -88,7 +88,7 @@ std::string Graph::printNodesToJson(std::vector<Node*> nodes, int length) {
 	json += "]}";
 	return json;
 }
-std::string Graph::printEverything(std::vector<Node*> nodes, std::vector<Edge*> edges, int length) {
+std::string BaseGraph::printEverything(std::vector<BaseNode*> nodes, std::vector<BaseEdge*> edges, int length) {
 	std::string json = "";
 	//is it efficient to do it like this? I think it is but it's not that elegant
 	std::cout << "print everything" << std::endl;
@@ -100,15 +100,15 @@ std::string Graph::printEverything(std::vector<Node*> nodes, std::vector<Edge*> 
 	return json;
 }
 
-void Graph::printEdges() {
-	for(std::vector<Edge*>::iterator it = edgeReference->begin(); it != edgeReference->end(); ++it) {
+void BaseGraph::printEdges() {
+	for(std::vector<BaseEdge*>::iterator it = edgeReference->begin(); it != edgeReference->end(); ++it) {
 		(*it)->printEdge();
 	}	
 }
 
-std::string Graph::printEdgesToJson(std::vector<Edge*> edges, int length) {
+std::string BaseGraph::printEdgesToJson(std::vector<BaseEdge*> edges, int length) {
 	std::string json = "{ \"links\":[";
-	for(std::vector<Edge*>::iterator it = edges.begin(); it != edges.end(); ++it) {
+	for(std::vector<BaseEdge*>::iterator it = edges.begin(); it != edges.end(); ++it) {
 		json += (*it)->printEdge();
 		if (it-edges.begin() != edges.size()-1) {
 			json += ",";
@@ -119,7 +119,7 @@ std::string Graph::printEdgesToJson(std::vector<Edge*> edges, int length) {
 	return json;
 }
 
-std::string Graph::printEdgeToJson(Edge *e) {
+std::string BaseGraph::printEdgeToJson(BaseEdge *e) {
 	std::string json = e->printEdge();
 	return json;
 }

@@ -1,6 +1,6 @@
 // # 2014 Walking Software
-#ifndef __NODE_HPP_
-#define __NODE_HPP_
+#ifndef __BASE_NODE_HPP_
+#define __BASE_NODE_HPP_
 
 #include <cstdlib>
 #include <iostream>
@@ -17,31 +17,31 @@
 #include <stdio.h>
 #include <numeric>
 #include <map>
-#include "Edge.hpp"
+#include "BaseEdge.hpp"
 
 namespace graphDB {
 
-	class Edge;
+	class BaseEdge;
 
-	class Node {
+	class BaseNode {
+		friend class BaseEdge;
 
 	public:
-
+		BaseNode();
 		void setId(std::string id){ this->id = id; }
 		std::string getId(){ return id;}
 		void addLabel(std::string labelName);
 		void addProperty(std::string propertyName, std::string propertyValue);
 		void addProperty(std::string propertyName, std::vector<std::string> propertyValue);
-		void addEdge (Edge *the_edge){ allEdges.push_back(the_edge); }
-		void setGroup(uint64_t group) { this->group = group;}
-		uint64_t getGroup() { return group;}
+		void setGroup(int group) { this->group = group;}
+		int getGroup() { return group;}
 		// void addOutgoingEdge(Edge *the_edge);
 		// void addReceivingEdge(Edge *the_edge);
 
 		// vector <*Edge> getOutgoingEdges();
 		// vector <*Edge> getIncomingEdges();
-		std::vector <Edge*> getAllEdges();
-		std::vector <Edge*> *getEdgesWithType(std::string type);
+		std::vector <BaseEdge*> getAllEdges();
+		std::vector <BaseEdge*> *getEdgesWithType(std::string type);
 
 		// map <string, vector <*Edge> > getOutgoingMap(){ return sentEdges_map; }
 		// map <string, vector <*Edge> > getIncomingMap(){ return receivedEdges_map; }
@@ -49,8 +49,8 @@ namespace graphDB {
 		std::map <std::string, std::vector <std::string> > getProperties();
 		std::vector <std::string> getLabels();
 		std::vector <std::string> getProperty(std::string PropertyName){ 
-			std::map <std::string, std::vector <std::string> > all_properties = getProperties();
-			std::vector <std::string> property = all_properties[PropertyName];
+			std::map <std::string, std::vector <std::string> > tempProperties = getProperties();
+			std::vector <std::string> property = tempProperties[PropertyName];
 			return property;
 		}
 
@@ -58,11 +58,13 @@ namespace graphDB {
 
 		
 	private:
+		
+		void addEdge (BaseEdge *edge){ edges.push_back(edge); }
 		std::string id;
-		uint64_t group;
+		int group;
 		std::vector <std::string> labels;
 		std::map <std::string, std::vector <std::string> > properties;
-		std::vector <Edge*> allEdges;
+		std::vector <BaseEdge*> edges;
 
 	};
 }

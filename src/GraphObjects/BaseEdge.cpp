@@ -1,16 +1,25 @@
 // # 2014 Walking Software
-#include "Edge.hpp"
+#include "BaseEdge.hpp"
 
 using namespace graphDB;
 
-void Edge::setUpEdge(std::string aId, Node* aFromNode, Node *aToNode) {
+void BaseEdge::setUpEdge(std::string aId, BaseNode* aFromNode, BaseNode *aToNode) {
 
 		id = aId;
 		fromNode = aFromNode;
 		toNode = aToNode;
 }
 
-std::string Edge::printEdge() {
+void BaseEdge::setFrom(BaseNode *node) {
+	fromNode= node;
+	node->addEdge(this);
+}
+void BaseEdge::setTo(BaseNode *node) {
+	toNode = node;
+	node->addEdge(this);
+}
+
+std::string BaseEdge::printEdge() {
 			//print out its types
 		std::string jsonTypes = "[";
 		std::vector <std::string> tempTypes = getTypes();

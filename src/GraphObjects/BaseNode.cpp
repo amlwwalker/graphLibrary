@@ -1,19 +1,19 @@
 // # 2014 Walking Software
-#include "Node.hpp"
+#include "BaseNode.hpp"
 
 using namespace graphDB;
 
 //a node can have a label and this is added with the function addLabel
-void Node::addLabel(std::string labelName){
+void BaseNode::addLabel(std::string labelName){
 	labels.push_back(labelName);
 }
 
 //function to add properties to nodes
-void Node::addProperty(std::string propertyName, std::string propertyValue){
+void BaseNode::addProperty(std::string propertyName, std::string propertyValue){
 	properties[propertyName].push_back( propertyValue );
 }
 //function to add array as a property to nodes
-void Node::addProperty(std::string propertyName, std::vector<std::string> propertyValue){
+void BaseNode::addProperty(std::string propertyName, std::vector<std::string> propertyValue){
 	for (int i = 0; i < propertyValue.size(); i++) {
 		properties[propertyName].push_back( propertyValue[i] );	
 	}
@@ -29,17 +29,17 @@ void Node::addProperty(std::string propertyName, std::vector<std::string> proper
 // 	return receivedEdges;
 // }
 
-std::vector <Edge*> Node::getAllEdges(){
-	return allEdges;
+std::vector <BaseEdge*> BaseNode::getAllEdges(){
+	return edges;
 }
 
-std::vector <Edge*> *Node::getEdgesWithType(std::string type) {
+std::vector <BaseEdge*> *BaseNode::getEdgesWithType(std::string type) {
 
-	std::vector <Edge*> *tempList;
-	tempList = new(std::vector <Edge*>);
-	for (int i = 0; i < allEdges.size(); i++) {
+	std::vector <BaseEdge*> *tempList;
+	tempList = new(std::vector <BaseEdge*>);
+	for (int i = 0; i < edges.size(); i++) {
 
-		Edge *tempEdge = allEdges[i];
+		BaseEdge *tempEdge = edges[i];
 		for (int j = 0; j < tempEdge->getTypes().size(); j++) {
 			if (tempEdge->getTypes()[j] == type) {
 				tempList->push_back(tempEdge);
@@ -97,14 +97,14 @@ std::vector <Edge*> *Node::getEdgesWithType(std::string type) {
 // 	}
 // }
 
-std::map <std::string, std::vector <std::string> > Node::getProperties(){
+std::map <std::string, std::vector <std::string> > BaseNode::getProperties(){
 	return properties;
 }
-std::vector <std::string> Node::getLabels(){
+std::vector <std::string> BaseNode::getLabels(){
 	return labels;
 }
 
-std::string Node::printNode(){
+std::string BaseNode::printNode(){
 
 		std::vector <std::string> tempLabels = getLabels();
 
@@ -146,7 +146,7 @@ std::string Node::printNode(){
 		 }
 		 jsonProperties += "}";
 		 std::string jsonEdges = "[";
-		 std::vector <Edge*> listOfEdges = getAllEdges();
+		 std::vector <BaseEdge*> listOfEdges = getAllEdges();
 		 for (int j = 0; j < listOfEdges.size(); j++) {
 		 	jsonEdges += "\""+listOfEdges[j]->getId()+"\"";
 			if (j != listOfEdges.size()-1) {
