@@ -14,7 +14,7 @@ namespace graphDB {
 	class BaseEdge {
 
 	public:
-		BaseEdge();
+		// BaseEdge();
 		void setUpEdge(std::string aId, BaseNode* aFromNode, BaseNode *aToNode);
 
 		std::string printEdge();

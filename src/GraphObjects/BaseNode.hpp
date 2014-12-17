@@ -27,7 +27,7 @@ namespace graphDB {
 		friend class BaseEdge;
 
 	public:
-		BaseNode();
+		// BaseNode();
 		void setId(std::string id){ this->id = id; }
 		std::string getId(){ return id;}
 		void addLabel(std::string labelName);
