@@ -9,8 +9,8 @@ BaseEdge::BaseEdge(std::string id){
 void BaseEdge::setUpEdge(std::string aName, BaseNode* aFromNode, BaseNode *aToNode) {
 
 		aName = name;
-		fromNode = aFromNode;
-		toNode = aToNode;
+		setFrom(aFromNode);
+		setTo(aToNode);
 }
 
 void BaseEdge::setFrom(BaseNode *node) {
