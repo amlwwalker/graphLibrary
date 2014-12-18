@@ -1,6 +1,7 @@
 // # 2014 Walking Software
 #ifndef __BASE_DATABASELOADER_HPP_
 #define __BASE_DATABASELOADER_HPP_
+
 #include <string.h>
 #include <iostream>
 #include <vector>
@@ -14,13 +15,13 @@ namespace graphDB {
 	class BaseDatabaseLoader {
 
 		public:
-			BaseDatabaseLoader(std::string aFileName, std::string graph);
+			BaseDatabaseLoader(std::string aFileName, BaseGraph graph) {mFileName = aFileName; mGraph = graph; }
 			// ~BaseDatabaseLoader();
 			void loadDatabase();
 		protected:
 
 			std::string mFileName;
-			std::string mGraph;
+			BaseGraph mGraph;
 	};
 }
 
