@@ -14,33 +14,39 @@ void BaseEdge::setUpEdge(std::string aName, BaseNode* aFromNode, BaseNode *aToNo
 }
 void BaseEdge::setUpEdge(BaseNode* aFromNode, BaseNode *aToNode, std::string aType) {
 
-		types.push_back(aType);
+		// types.push_back(aType);
+		this->type = aType;
 		setFrom(aFromNode);
 		setTo(aToNode);
 }
 
 void BaseEdge::setFrom(BaseNode *node) {
 	fromNode= node;
-	node->addEdge(this);
+	// EdgeDir Dir = OUT;
+	// node->addEdge(this, Dir);
+	node->addEdge(this, 1);
 }
 void BaseEdge::setTo(BaseNode *node) {
 	toNode = node;
-	node->addEdge(this);
+	// EdgeDir Dir = IN;
+	node->addEdge(this, 0);
 }
 
 std::string BaseEdge::printEdge() {
 			//print out its types
 		std::string jsonTypes = "[";
-		std::vector <std::string> tempTypes = getTypes();
-		for (int j = 0; j < tempTypes.size(); j++){
-			jsonTypes += "\""+tempTypes[j]+"\"";
-			if (j != tempTypes.size()-1) {
-				jsonTypes += ",";
-			}
-		}
+		std::string tmptype = getType();
+		jsonTypes += tmptype;
+		// std::vector <std::string> tempTypes = getTypes();
+		// for (int j = 0; j < tempTypes.size(); j++){
+		// 	jsonTypes += "\""+tempTypes[j]+"\"";
+		// 	if (j != tempTypes.size()-1) {
+		// 		jsonTypes += ",";
+		// 	}
+		// }
 		jsonTypes += "]";
 		std::string jsonProperties = "{";
-		std::map<std::string, std::vector<std::string> > tempProperties = getProperties();
+		std::map<std::string, std::vector<std::string> > tempProperties = *getProperties();
 		int position = 0; //to check if we have gone over all but one.
 		 for (std::map<std::string, std::vector<std::string> >::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
 		 		//we now have the vector. Now loop over that....

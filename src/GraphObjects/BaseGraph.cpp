@@ -7,15 +7,16 @@ BaseGraph::BaseGraph(){
 	nodeReference = new(std::vector<BaseNode*>);
 	edgeReference = new(std::vector<BaseEdge*>);
 }
-std::vector <BaseEdge*>BaseGraph::getEdgesOnNode(BaseNode *n) {
+std::vector <BaseEdge*> *BaseGraph::getEdgesOnNode(BaseNode *n) {
 	return n->getAllEdges();
 }
 
 void BaseGraph::getNeighbouringNodes(BaseNode *n, std::vector<BaseNode*> &nodes) {
-	std::vector<BaseEdge*> edges = getEdgesOnNode(n);
+	std::vector<BaseEdge*> edges = *getEdgesOnNode(n);
 	
 	nodes.push_back(n);
 	for(std::vector<BaseEdge*>::iterator it = edges.begin(); it !=edges.end(); ++it){
+
 		//check which end n is of the edge
 		if ((*it)->getFrom() != n) {
 			nodes.push_back((*it)->getFrom());
@@ -30,6 +31,16 @@ BaseNode* BaseGraph::findNodeWithId(std::string id){
 
 	for(std::vector<BaseNode*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
 		if ((*it)->getId() == id){
+			return (*it);
+		}
+	}
+	return NULL;
+}
+
+BaseNode* BaseGraph::findNodeWithName(std::string name){
+
+	for(std::vector<BaseNode*>::iterator it = nodeReference->begin(); it != nodeReference->end(); ++it) {
+		if ((*it)->getName() == name){
 			return (*it);
 		}
 	}

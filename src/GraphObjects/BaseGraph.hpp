@@ -24,14 +24,16 @@ namespace graphDB{
 		///Adds a Edge to the graph (only the graph object is able to do this)
 		BaseEdge *addEdge(){BaseEdge *e; e = new BaseEdge(std::to_string(edgeCounter++)); edgeReference->push_back(e); return e;}
 		///Returns the edges attached to a specific node
-		std::vector <BaseEdge*>getEdgesOnNode(BaseNode *n);
+		std::vector <BaseEdge*>*getEdgesOnNode(BaseNode *n);
 		///Prints out all nodes
 		void printNodes();
 		///Prints out all the edges
 		void printEdges();
-		///Finds and returns an node with a specific ID
+		///Finds and returns a pointer to a node with a specific ID
 		BaseNode* findNodeWithId(std::string id);
-		///Finds and returns an edge with a specific ID
+		///Finds and returns a pointer to a node with a specific name
+		BaseNode* findNodeWithName(std::string id);
+		///Finds and returns a pointer to an edge with a specific ID
 		BaseEdge* findEdgeWithId(std::string id);
 		///Prints all the nodes in JSON format
 		std::string printNodesToJson(std::vector<BaseNode*> nodes, int length = 0);

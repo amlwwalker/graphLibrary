@@ -16,7 +16,7 @@ void BaseNode::addProperty(std::string propertyName, std::string propertyValue){
 	properties[propertyName].push_back( propertyValue );
 }
 //function to add array as a property to nodes
-void BaseNode::addProperty(std::string propertyName, std::vector<std::string> propertyValue){
+void BaseNode::addProperty(std::string propertyName, std::vector<std::string> &propertyValue){
 	for (int i = 0; i < propertyValue.size(); i++) {
 		properties[propertyName].push_back( propertyValue[i] );	
 	}
@@ -32,8 +32,8 @@ void BaseNode::addProperty(std::string propertyName, std::vector<std::string> pr
 // 	return receivedEdges;
 // }
 
-std::vector <BaseEdge*> BaseNode::getAllEdges(){
-	return edges;
+std::vector <BaseEdge*> * BaseNode::getAllEdges(){
+	return &edges;
 }
 
 std::vector <BaseEdge*> *BaseNode::getEdgesWithType(std::string type) {
@@ -43,11 +43,12 @@ std::vector <BaseEdge*> *BaseNode::getEdgesWithType(std::string type) {
 	for (int i = 0; i < edges.size(); i++) {
 
 		BaseEdge *tempEdge = edges[i];
-		for (int j = 0; j < tempEdge->getTypes().size(); j++) {
-			if (tempEdge->getTypes()[j] == type) {
+		// for (int j = 0; j < tempEdge->getTypes().size(); j++) {
+			// if (tempEdge->getTypes()[j] == type) {
+			if (tempEdge->getType() == type) {
 				tempList->push_back(tempEdge);
 			}
-		}	
+		// }	
 	}
 	return tempList;
 }
@@ -100,8 +101,8 @@ std::vector <BaseEdge*> *BaseNode::getEdgesWithType(std::string type) {
 // 	}
 // }
 
-std::map <std::string, std::vector <std::string> > BaseNode::getProperties(){
-	return properties;
+std::map <std::string, std::vector <std::string> > * BaseNode::getProperties(){
+	return &properties;
 }
 std::vector <std::string> BaseNode::getLabels(){
 	return labels;
@@ -124,7 +125,7 @@ std::string BaseNode::printNode(){
 
 		std::string jsonProperties = "{";
 		//print the properies
-		std::map<std::string, std::vector<std::string> > tempProperties = getProperties();
+		std::map<std::string, std::vector<std::string> > tempProperties = *getProperties();
 		int position = 0; //to check if we have gone over all but one.
 		 for (std::map<std::string, std::vector<std::string> >::iterator it=tempProperties.begin(); it!=tempProperties.end(); ++it) {
 		 		//we now have the vector. Now loop over that....
@@ -149,7 +150,7 @@ std::string BaseNode::printNode(){
 		 }
 		 jsonProperties += "}";
 		 std::string jsonEdges = "[";
-		 std::vector <BaseEdge*> listOfEdges = getAllEdges();
+		 std::vector <BaseEdge*> listOfEdges = *getAllEdges();
 		 for (int j = 0; j < listOfEdges.size(); j++) {
 		 	jsonEdges += "\""+listOfEdges[j]->getId()+"\"";
 			if (j != listOfEdges.size()-1) {
