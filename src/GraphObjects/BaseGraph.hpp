@@ -47,6 +47,18 @@ namespace graphDB{
 		void getNeighbouringNodes(BaseNode *n, std::vector<BaseNode*> &nodes);
 		///D3 specific - to remove once D3 is fixed
 		void reorganise(std::vector<BaseNode*> nodes);
+
+		///Enumerator holds directions that an edge can be
+		/** To use it from somewhere that knows about the graph object:
+		can call graph.t.NONE etc....
+		*/
+		enum EdgeType
+		{
+		    NONE,
+		    OUTGOING,
+		    INCOMING
+		};
+		EdgeType t;
 	private:
 		int nodeCounter = 0;
 		int edgeCounter = 0;

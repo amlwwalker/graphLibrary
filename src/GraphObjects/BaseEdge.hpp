@@ -9,6 +9,7 @@
 #include "BaseNode.hpp"
 
 namespace graphDB {
+
 	class BaseNode;
 
 	class BaseEdge {
@@ -54,6 +55,7 @@ namespace graphDB {
 			std::vector <std::string> property = tempProperties[propertyName];
 			return property;
 		}
+		
 	private:
 		BaseEdge(std::string id);
 		std::string id;
